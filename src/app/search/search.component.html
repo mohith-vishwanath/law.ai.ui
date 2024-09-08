@@ -1,0 +1,19 @@
+<div class="container main">
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="Search here..." [(ngModel)]="query">
+    <button class="search-button" (click)="search()">➔</button>
+  </div>
+  <div class="results">
+    <div class="result-item" *ngFor="let response of responses; let i = index">
+      <div class="result-info">
+        <div class="result-name">{{response.title}}</div>
+        <div class="result-summary">{{response.summary}}</div>
+      </div>
+      <div class="result-actions">
+        <button class="action-button">Cited by {{response.citedBy}}</button>
+        <button class="action-button" (click)="openPdf(i)">Open PDF</button>
+      </div>
+    </div>
+    <!-- Repeat the above block for more results -->
+  </div>
+</div>
