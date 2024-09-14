@@ -1,9 +1,15 @@
 <div class="container main">
   <div class="search-bar">
-    <input type="text" class="search-input" placeholder="Search here..." [(ngModel)]="query">
-    <button class="search-button" (click)="search()">➔</button>
+    <input type="text" class="search-input" placeholder="Search anything" [(ngModel)]="query">
+    <button class="search-button" (click)="search()" [disabled]="disableSearchButton()">Go</button>
   </div>
-  <div class="results">
+  <div class="loading-container" *ngIf="showLoadingIndicator">
+    <div class="loading-spinner">
+      <div class="loading-spinner-dot"></div>
+    </div>
+    <p class="loading-text">Fetching</p>
+  </div>
+  <div class="results hidden">
     <div class="result-item" *ngFor="let response of responses; let i = index">
       <div class="result-info">
         <div class="result-name">{{response.title}}</div>
@@ -14,6 +20,5 @@
         <button class="action-button" (click)="openPdf(i)">Open PDF</button>
       </div>
     </div>
-    <!-- Repeat the above block for more results -->
   </div>
 </div>
