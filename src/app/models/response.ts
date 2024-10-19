@@ -1,7 +1,10 @@
 export interface SearchResponse {
   title: string;
   summary: string;
-  citedBy: number;
+  numcites: number;
   fileLink: string;
   relevanceScore: number;
+  id : number;
+  fullText : string;
+  date : string;
 }

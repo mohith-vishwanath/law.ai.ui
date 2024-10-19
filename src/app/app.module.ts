@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { SearchService } from './services/service';
+import { BackendService } from './services/service';
+import { ContractAnalysisComponent } from './contract-analysis/contract-analysis.component';
+import { TopBarComponent } from './top-bar/top-bar.component';
 
 @NgModule({
-  declarations: [AppComponent, SearchComponent],
+  declarations: [AppComponent, SearchComponent, ContractAnalysisComponent, TopBarComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],

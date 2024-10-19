@@ -11,14 +11,15 @@
   </div>
   <div class="results hidden">
     <div class="result-item" *ngFor="let response of responses; let i = index">
-      <div class="result-info">
-        <div class="result-name">{{response.title}}</div>
-        <div class="result-summary">{{response.summary}}</div>
-      </div>
-      <div class="result-actions">
-        <button class="action-button">Cited by {{response.citedBy}}</button>
-        <button class="action-button" (click)="openPdf(i)">Open PDF</button>
-      </div>
+      <a href="{{response.fileLink}}" target="_blank" class="search-result-box">
+        <h2>{{response.title}}</h2>
+        <p>{{response.summary}}</p>
+        <div class="result-meta">
+            <span>{{response.relevanceScore}}</span>
+            <span>{{response.date}}</span>
+            <span>Cited by {{response.numcites}}</span>
+        </div>
+    </a>
     </div>
   </div>
 </div>

@@ -1,0 +1,22 @@
+<div class="upload-container" (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+    <div class="upload-content-text" *ngIf="showUploadFilesText">
+        <div>Upload any document to get started!</div>
+        <div>drag and drop .PDF or .docx file here</div>
+    </div>
+    <div class="case-specific-title" *ngIf="!showUploadFilesText">
+        {{caseSpecificTitle}}
+    </div>
+    <div *ngIf="isUploading" class="spinner"></div>
+
+    <button id="plus-button" class="add-files-button" (click)="onPlusClick()">+</button>
+    <div class="dynamic-button-container hidden" *ngIf="">
+        <button *ngFor="let button of dynamicButtons" [attr.id]="button.questionId" (click)="dynamicActionsButtonClicked(button.questionId)"
+            class="action-button">
+            {{ button.label }}
+        </button>
+    </div>
+    <div class="search-bar hidden">
+        <input type="text" class="search-input" placeholder="Search anything" [(ngModel)]="query">
+        <button class="search-button" (click)="sendQuery()" [disabled]="disableSearchButton()">Go</button>
+    </div>
+</div>
