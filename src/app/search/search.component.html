@@ -1,0 +1,25 @@
+<div class="container main">
+  <div class="search-bar">
+    <input type="text" class="search-input" placeholder="Search anything" [(ngModel)]="query">
+    <button class="search-button" (click)="search()" [disabled]="disableSearchButton()">Go</button>
+  </div>
+  <div class="loading-container" *ngIf="showLoadingIndicator">
+    <div class="loading-spinner">
+      <div class="loading-spinner-dot"></div>
+    </div>
+    <p class="loading-text">Fetching</p>
+  </div>
+  <div class="results hidden">
+    <div class="result-item" *ngFor="let response of responses; let i = index">
+      <a href="{{response.fileLink}}" target="_blank" class="search-result-box">
+        <h2>{{response.title}}</h2>
+        <p>{{response.summary}}</p>
+        <div class="result-meta">
+            <span>{{response.relevanceScore}}</span>
+            <span>{{response.date}}</span>
+            <span>Cited by {{response.numcites}}</span>
+        </div>
+    </a>
+    </div>
+  </div>
+</div>
