@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './search/search.component';
-import { ContractAnalysisComponent } from './contract-analysis/contract-analysis.component';
+import { SearchMainFrameComponent } from './components/search/search-main-frame/search-main-frame.component';
+import { DocumentsMainFrameComponent } from './components/documents/documents-main-frame/documents-main-frame.component';
 
 const routes: Routes = [
   {
     path : "search",
-    component : SearchComponent
+    component : SearchMainFrameComponent
   },
   {
-    path : "analysis",
-    component : ContractAnalysisComponent
+    path : "documents",
+    component : DocumentsMainFrameComponent
   }
 ];
 
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {}  

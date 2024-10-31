@@ -1,0 +1,41 @@
+<div class="results-main">
+    <div class="search-results">
+        <div class="top-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="{{searchPlaceholderText}}"
+                    [(ngModel)]="searchQuery">
+                <button class="search-button" (click)="Search()" [disabled]="DisableSearchButton()">Go</button>
+            </div>
+            <div class="filters">
+
+            </div>
+        </div>
+        <div class="results-section">
+            <ng-container *ngFor="let result of results; let i = index">
+                <div class="result-case">
+                    <div class="result-content">
+                        <p class="case-title"> <button class="clear-button"
+                                (click)="OpenCase(i)">{{result.title}}</button></p>
+                        <p class="case-summary">{{result.summary}}</p>
+                    </div>
+                    <div class="case-footnote">
+                        <p *ngIf="result.numcites">Cited by {{result.numcites}}</p>
+                        <p *ngIf="result.date">Date {{result.date}}</p>
+                        <p *ngIf="result.relevanceScore">Relevance {{result.relevanceScore}}</p>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="case-preview" *ngIf="showCasePreview">
+        <div class="case-preview-container">
+            <div class="case-preview-title">
+                <p>{{case?.title}}</p>
+                <button (click)="showCasePreview = !showCasePreview">X</button>
+            </div>
+            <div class="case-text">
+                <div [innerHTML]="case?.doc"></div>
+            </div>
+        </div>
+    </div>
+</div>

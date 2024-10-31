@@ -1,0 +1,23 @@
+<div class="chat-main">
+    <div class="chat-interface" *ngIf="!showUploadPage">
+        <div class="chat-messages">
+            <div class="{{message.role}}" *ngFor="let message of CurrentConversation?.chats">
+                <!-- <p>{{message.content}}</p> -->
+                 <div [innerHTML]="message.content"></div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <div class="search-bar">
+                <input [(ngModel)]="message" placeholder="Ask anything..."> <button (click)="SendUserMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload documents interface -->
+    <div class="drop-area" id="drop-area" *ngIf="showUploadPage" (drop)="handleFileDrop($event)"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+        <p *ngIf="!showLoadingIcon">Drag & drop PDFs here</p>
+        <!-- <p *ngIf="!showLoadingIcon && hasDocuments">or select a chat from the left!</p> -->
+        <mat-spinner [diameter]="50" *ngIf="showLoadingIcon"></mat-spinner>
+    </div>
+</div>

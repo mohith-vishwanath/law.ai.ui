@@ -1,0 +1,16 @@
+<div class="chat-history-main">
+    <ng-container *ngIf="hasDocuments">
+        <div>
+            <!-- Heading -->
+             <p class="history-heading">Your History</p>
+             <div class="document" *ngFor="let doc of (history || []); let i = index">
+                <button mat-button class="document-button" id="{{i}}" (click)="ConversationSelected(i)">{{doc.fileName}}</button>
+             </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!hasDocuments">
+        <div id="no-history">
+            <p>No history</p>
+        </div>
+    </ng-container>
+</div>

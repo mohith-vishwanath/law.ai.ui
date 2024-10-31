@@ -1,0 +1,38 @@
+.chat-history-main {
+    width: 20vw;
+    height: 100vh;
+}
+
+#no-history {
+    display : flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#no-history p {
+    font-weight: 500;
+    color: rgb(143, 143, 143);
+    font-size: 15px;
+}
+
+.history-heading {
+    padding : 15px 17px;
+    font-size: 15px;
+    color: rgb(92, 92, 92);
+    font-weight: 500;
+}
+
+.document-button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    text-align: left;
+}
+
+.selected {
+    font-weight: 700;
+}

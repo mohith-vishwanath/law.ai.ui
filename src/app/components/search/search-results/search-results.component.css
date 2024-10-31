@@ -1,0 +1,143 @@
+p {
+    margin : 3px;
+}
+
+.results-main {
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    top: 6%;
+    height: 95vh;
+    display: flex;
+}
+
+.search-results {
+    width: 50%;
+}
+
+.case-preview {
+    width: 50%;
+}
+
+.top-section {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 15px;
+}
+
+.search-bar {
+    display: flex;
+    border-radius: 20px;
+    background-color: rgb(234, 234, 234);
+    width: 600px;
+    padding: 10px 10px;
+}
+
+.search-bar input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #000000; /* Text color */
+    font-size: 13px;
+    padding: 5px; /* Padding for input */
+    flex: 1;
+}
+
+.search-bar button {
+    background-color:rgb(61, 61, 61);
+    border: none;
+    border-radius: 50%; /* Make the button circular */
+    padding: 8px;
+    margin-left: 8px; /* Space between input and button */
+    cursor: pointer;
+    color: white; /* Button text/icon color */
+    font-size: 14px; /* Font size for button */
+}
+
+.results-section {
+    overflow-y: scroll;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    height: 95vh;
+}
+
+.result-case {
+    border: 1px solid rgb(231, 231, 231);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.case-title {
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.case-summary {
+    font-weight: 200px;
+    font-size: 12px;
+}
+
+.case-footnote {
+    display: flex;
+    align-items: flex-start;
+}
+
+.case-footnote p {
+    font-weight: 100px;
+    color: rgb(172, 172, 172);
+    font-size: 10px;
+    margin-bottom: 0;
+}
+
+.clear-button {
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    color: rgb(0, 136, 255);
+    padding: 0;
+}
+
+.clear-button:hover {
+    cursor:pointer;
+}
+
+.case-preview {
+    width: 100%;
+}
+
+.case-preview-container {
+    border: 2px solid;
+    border-color: rgb(193, 193, 193);
+    border-radius: 10px;
+    margin: 10px;
+    height: 100vh;
+    box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.case-preview-title {
+    display: flex;
+    align-items: center;
+    justify-items: flex-start;
+    height: 30px;
+    padding: 10px 0px;
+    position: sticky relative;
+    top: 0;
+}
+
+.case-preview-title p {
+    width: 95%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.case-preview-title button {
+    padding: 5px 10px;
+    margin: 5px 10px;
+}
+
+.case-text {
+    overflow-y: scroll;
+    height: 90vh;
+    padding: 10px;
+}

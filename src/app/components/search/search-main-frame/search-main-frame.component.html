@@ -1,0 +1,19 @@
+<div class="search-main">
+    <div class="search-section" *ngIf="!showResponsePage">
+        <div class="search-logo">
+            <p>What can I help you with?</p>
+        </div>
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="{{searchPlaceholderText}}" [(ngModel)]="searchQuery">
+            <button class="search-button" (click)="search()" [disabled]="disableSearchButton()">Go</button>
+        </div>
+    </div>
+
+    <div id="search-results" *ngIf="showResponsePage">
+        <app-search-results [results]="searchResponse" [searchQuery]="searchQuery"></app-search-results>
+    </div>
+
+    <div class="footnote" *ngIf="!showResponsePage">
+        <p>Only Supreme Court Cases are available</p>
+    </div>
+</div>
