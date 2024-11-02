@@ -16,11 +16,11 @@ export class DataService {
 
     private UploadedDocuments$ = new BehaviorSubject<void>(undefined);
 
+    private SearchResults$ = new BehaviorSubject<SearchResponse[]>([]);
+
     private RawCases: { [id: number]: Case } = {};
 
     public userId : string = "0b8d66b8-00dd-4abd-b530-6125b4bcc09f";
-
-    public searchResponse : SearchResponse[] = [];
 
     constructor(private service : BackendService) {
 
@@ -62,6 +62,10 @@ export class DataService {
 
     public GetUserDocumentHistory() : Observable<DocumentHistory[]> {
         return this.UserDocumentsHistory$.asObservable();
+    }
+
+    public GetSearchResults() : Observable<SearchResponse[]> {
+        return this.SearchResults$.asObservable();
     }
 
     public AddMsgToCurrentConversation(message : string) {
@@ -110,5 +114,9 @@ export class DataService {
             this.RawCases[caseId] = res;
             return res;
         }));
-     }
+    }
+
+    public Search(query : string) : void {
+        this.service.Search(query).subscribe(data => this.SearchResults$.next(data))
+    }
 }

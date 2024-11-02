@@ -11,7 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 export class SearchResultsComponent implements OnInit {
 
   @Input('searchQuery') searchQuery : string = "";
-  @Input('results') results : SearchResponse[] = []
+  public results : SearchResponse[] = []
 
   public isSideNavOpen : boolean = false;
   public showCasePreview : boolean = false;
@@ -22,18 +22,11 @@ export class SearchResultsComponent implements OnInit {
   constructor(private dataService : DataService) { }
 
   ngOnInit(): void {
-    // //Dummy case
-    // for(let i = 0; i< 20; i++) {
-    //   this.results.push({
-    //     title : `Title ${i}`,
-    //     summary : "In summary, the case involves a dispute over the validity of a caste certificate issued to respondent No. 15, claiming Scheduled Tribe status. The certificate was issued in 1993, but there were conflicting affidavits and sale deeds suggesting respondent No. 15's father belonged to the general category. The caste certificate was eventually cancelled by the SDO in 2012, but the cancellation was overturned by a committee. The High Court upheld the committee's jurisdiction, leading to the appeal. The Supreme Court set aside the High Court's decision, finding that the committee lacked jurisdiction and that the conduct of respondent No. 15 indicated that the appeal was meritless.",
-    //     numcites : 5,
-    //     fileLink : "https://www.apple.com",
-    //     relevanceScore : 0.78,
-    //     id : i,
-    //     date : ""
-    //   } as SearchResponse)
-    // }
+    this.dataService.GetSearchResults().subscribe(data => {
+      if(data) {
+        this.results = data;
+      }
+    })
   }
 
   public ToggleSidenav() {
@@ -45,14 +38,14 @@ export class SearchResultsComponent implements OnInit {
   }
 
   public Search() {
-    this
+    this.dataService.Search(this.searchQuery)
   }
 
   public OpenCase(index : number) {
     //Get the case ID
     var caseId = this.results[index].id;
 
-    this.dataService.GetCaseWithCaseId(133800809).subscribe(res => {
+    this.dataService.GetCaseWithCaseId(caseId).subscribe(res => {
       this.showCasePreview = true;
       this.case = res;
       console.log(this.case)

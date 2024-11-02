@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchResponse } from 'src/app/models/response';
+import { DataService } from 'src/app/services/data.service';
 import { BackendService } from 'src/app/services/service';
 
 @Component({
@@ -15,17 +16,14 @@ export class SearchMainFrameComponent implements OnInit {
 
   public showResponsePage : boolean = false;
 
-  constructor(private service : BackendService) { }
+  constructor(private dataService : DataService) { }
 
   ngOnInit(): void {}
 
   public search() {
     console.log(`Searching for ${this.searchQuery}`)
     this.showResponsePage = true;
-    // this.service.Search(this.searchQuery.trim()).subscribe(response => {
-    //   this.searchResponse = response;
-    //   this.showResponsePage = true
-    // })
+    this.dataService.Search(this.searchQuery);
   }
 
   public disableSearchButton() {

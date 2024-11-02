@@ -3,7 +3,7 @@ export interface SearchResponse {
   summary: string;
   numcites: number;
   fileLink: string;
-  relevanceScore: number;
+  score: number;
   id : number;
   fullText : string;
   date : string;

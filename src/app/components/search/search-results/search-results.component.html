@@ -21,7 +21,7 @@
                     <div class="case-footnote">
                         <p *ngIf="result.numcites">Cited by {{result.numcites}}</p>
                         <p *ngIf="result.date">Date {{result.date}}</p>
-                        <p *ngIf="result.relevanceScore">Relevance {{result.relevanceScore}}</p>
+                        <p *ngIf="result.score">Relevance {{result.score}}</p>
                     </div>
                 </div>
             </ng-container>
@@ -35,6 +35,34 @@
             </div>
             <div class="case-text">
                 <div [innerHTML]="case?.doc"></div>
+            </div>
+        </div>
+    </div>
+    <div class="case-summary" *ngIf="!showCasePreview">
+        <div class="case-summary-container">
+            <div class="section" id="summary" *ngIf>
+                <p class="section-title">Summary</p>
+                <p>This case revolves around the validity of a caste certificate issued to respondent No. 15, claiming Scheduled Tribe status, and its implications on land sale transactions executed by his father and himself. The appellants, who purchased land from the original purchasers, challenge the cancellation of the sale deeds and the caste certificate. The High Court upheld the jurisdiction of the Committee to entertain the appeal regarding the caste certificate cancellation, which the appellants contest.</p>
+            </div>
+            <div class="section" id="facts">
+                <p class="section-title">Facts</p>
+                <p>Late Ramanand Baraik sold lands between 1980 and 1983, including to Sanjay Gupta and others in 1983. He worked as a driver and was recorded as belonging to the general category. After Ramanand's death in 1991, his son, respondent No. 15, obtained a Scheduled Tribe caste certificate in 1993. Respondent No. 15 sold land in 2000 and 2001, claiming to be from the general category. In 2004, he challenged the 1983 sale deeds as illegal. The appellants purchased the land in 2004 and later sought to cancel respondent No. 15's caste certificate, which was initially cancelled but later revoked by the Committee.</p>
+            </div>
+            <div class="section" id="arguments">
+                <p class="section-title">Arguments</p>
+                <p>The appellants argue that the Committee lacks jurisdiction to hear appeals on caste certificate cancellations and that respondent No. 15's actions, including selling land as a general category member and failing to produce evidence of his Scheduled Tribe status, indicate fraud. Respondents argue that the Committee has jurisdiction post-amendment and that they should not be left remediless.</p>
+            </div>
+            <div class="section" id="reasoning">
+                <p class="section-title">Reasoning</p>
+                <p>The Court finds that the Committee has jurisdiction post-amendment to hear the appeal on the caste certificate cancellation. However, considering the conduct of respondent No. 15 and his family, who sold lands without permission and claimed general category status, the Court finds no merit in his claim. The Court notes that the challenge to the 1983 sale deeds came much later and only after respondent No. 15 obtained the caste certificate.</p>
+            </div>
+            <div class="section" id="conclusion">
+                <p class="section-title">Conclusion</p>
+                <p>The appeal is allowed, and the High Court's judgment is set aside. The Court finds no merit in respondent No. 15's claim to Scheduled Tribe status and deems it futile to remit the matter back to any authority for further examination.</p>
+            </div>
+            <div class="section" id="laws">
+                <p class="section-title">Laws</p>
+                <p>The West Bengal Land Reforms Act, 1955 (Sections 14B, 14C, 14E, and 14H); The West Bengal Scheduled Castes and Scheduled Tribes (Identification) Act, 1994 (Section 8A); The West Bengal Scheduled Castes and Scheduled Tribes (Identification) (Amendment) Act, 2017. The laws are referred to in the context of the requirement for permissions to sell land by Scheduled Tribes, the jurisdiction of the Committee to hear appeals on caste certificate cancellations, and the procedural aspects of the case. The amendments to Section 8A of the 1994 Act are discussed in terms of their retrospective application.</p>
             </div>
         </div>
     </div>
