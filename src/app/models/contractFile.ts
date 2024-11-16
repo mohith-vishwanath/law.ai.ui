@@ -7,11 +7,10 @@ export interface ContractFile {
 }
 
 export interface UploadFileResponse {
-    fileId : string;
-    questions : Questions[],
+    questions : string[],
     tags : string[],
-    fileName : string;
     sessionId : string;
+    title : string;
 }
 
 export interface Questions {
@@ -25,15 +24,16 @@ export interface ActionButtons {
     iconUrl : string;
 }
 
-export interface DocumentHistory {
-    fileId : string;
-    fileName : string;
-    sessionId : string;
-    chats : Message[];
-}
-
 export interface Sessions {
+    title : string;
     sessionId : string;
-    sessionTitle : string;
+    chats : Message[] | undefined;
+    files : Files[] | undefined;
+    isSelected : boolean;
+    questions : string[] | undefined;
 }
 
+export interface Files {
+    type : string; //can be sither "case" or "document"
+    name : string;
+}

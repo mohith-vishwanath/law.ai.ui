@@ -2,27 +2,40 @@ p {
     margin : 3px;
 }
 
+hr {
+    border: 0.5px solid rgb(227, 227, 227);
+    margin: 2px;
+}
+
 .results-main {
-    width: 100%;
-    position: relative;
+    position: fixed;
     padding: 10px;
     top: 6%;
-    height: 95vh;
-    display: flex;
+    height: 90%;
+}
+
+.case-metadata {
+    margin: 0px 5px;
+    /* border: 0.5px solid rgb(89, 89, 89);
+    padding: 2px; */
 }
 
 .search-results {
-    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
 }
 
 .case-preview {
-    width: 50%;
+    width: 90%;
 }
 
 .top-section {
     display: flex;
     align-items: flex-start;
-    padding: 10px 15px;
+    padding: 5px 15px;
+    width: 100%;
 }
 
 .search-bar {
@@ -37,56 +50,114 @@ p {
     background-color: transparent;
     border: none;
     outline: none;
-    color: #000000; /* Text color */
+    color: #000000;
     font-size: 13px;
-    padding: 5px; /* Padding for input */
+    padding: 5px;
     flex: 1;
 }
 
 .search-bar button {
     background-color:rgb(61, 61, 61);
     border: none;
-    border-radius: 50%; /* Make the button circular */
+    border-radius: 50%;
     padding: 8px;
-    margin-left: 8px; /* Space between input and button */
+    margin-left: 8px;
     cursor: pointer;
-    color: white; /* Button text/icon color */
-    font-size: 14px; /* Font size for button */
+    color: white;
+    font-size: 14px;
 }
 
 .results-section {
     overflow-y: scroll;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    height: 95vh;
+    padding: 10px 20px;
+    height: 85%;
+    width: 45%;
 }
 
-.result-case {
-    border: 1px solid rgb(231, 231, 231);
-    border-radius: 10px;
-    padding: 10px;
+.preview-section {
+    overflow-y: scroll;
+    padding: 10px 20px;
+    height: 85%;
+    width: 55%;
+}
+
+::ng-deep .mat-progress-spinner circle {
+    stroke: #363636;
+}
+  
+
+.loading-spinner {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-container p {
     margin: 10px;
-}
-
-.case-title {
-    font-weight: 400;
+    animation: pulse 1s infinite ease-in-out;
+    font-weight: 500;
+    color: #363636; 
     font-size: 15px;
 }
 
-.case-summary {
+.spinner-container {
+    align-items: center;
+    justify-items: center;
+}
+
+mat-spinner {
+    margin : auto
+}
+
+@keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+.result-case {
+    padding: 10px;
+    margin: 3px;
+}
+
+.case-title {
+    display: flex;
+    align-items: flex-start;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 4px 0px;
+}
+
+.case-title input {
+    margin: 7px;
+}
+
+.case-title button {
+    font-size: 15px;
+}
+
+.summary {
     font-weight: 200px;
     font-size: 12px;
+    width: 100%;
 }
 
 .case-footnote {
     display: flex;
     align-items: flex-start;
+    margin : 5px 0
 }
 
 .case-footnote p {
-    font-weight: 100px;
-    color: rgb(172, 172, 172);
-    font-size: 10px;
+    font-weight: 300px;
+    color: rgb(72, 72, 72);
+    font-size: 11px;
     margin-bottom: 0;
 }
 
@@ -102,17 +173,12 @@ p {
     cursor:pointer;
 }
 
-.case-preview {
-    width: 100%;
-}
-
 .case-preview-container {
-    border: 2px solid;
-    border-color: rgb(193, 193, 193);
+    border: 1px solid;
+    border-color: rgb(211, 211, 211);
     border-radius: 10px;
     margin: 10px;
-    height: 100vh;
-    box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.3);
+    /* height: 100vh; */
 }
 
 .case-preview-title {
@@ -143,15 +209,19 @@ p {
 }
 
 .case-summary {
-    width: 40%;
+    /* overflow-y: scroll; */
+    width: 80%;
+    margin: 0px 20px;
 }
 
 .case-summary-container {
-    border: 1px solid rgb(171, 171, 171);
+    border: 1px solid rgb(221, 221, 221);
     width: 100%;
     height: fit-content;
     border-radius: 10px;
-    padding: 15px 15px;
+    padding: 20px 15px;
+    transition: 0.2s ease-in-out;
+    overflow-y: scroll;
 }
 
 .section-title {
@@ -161,4 +231,44 @@ p {
 
 .section {
     margin: 10px 0px;
+}
+
+.summary-top-bar {
+    display: flex;
+    width: 100%;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.border-less-button {
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 140, 255);
+    cursor: pointer;
+    font-size: 12px;
+    margin : 3px;
+}
+
+.search-metadata {
+    display: flex;
+    align-items: flex-start;
+    margin: 5px 10px;
+}
+
+.search-metadata p {
+    font-weight: 400;
+    font-size: 12px;
+    color: #626262;
+}
+
+.inline-image {
+    height: 14px;
+    width: 14px;
+    margin-right: 5px;
+}
+
+.ai-overview-title {
+    font-size: 14px;
+    padding-bottom: 20px;
+    padding: 10px 0px;
 }

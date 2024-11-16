@@ -1,23 +1,30 @@
 <div class="chat-main">
-    <div class="chat-interface" *ngIf="!showUploadPage">
-        <div class="chat-messages">
-            <div class="{{message.role}}" *ngFor="let message of CurrentConversation?.chats">
-                <!-- <p>{{message.content}}</p> -->
+    <div class="chat-interface">
+        <div class="chat-messages" id="drop-area" (drop)="handleFileDrop($event)"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+            <div class="{{message.role}}" *ngFor="let message of CurrentSession?.chats">
                  <div [innerHTML]="message.content"></div>
             </div>
+            <div class="chat-info-message" *ngIf="!CurrentSession?.chats">
+                <p>No messages yet <br> Ask me anything! <br>Drag & drop PDFs here</p>
+                <mat-spinner [diameter]="50" *ngIf="showLoadingIcon"></mat-spinner>
+            </div>
         </div>
+        <button class="question-buttons" (click)="Questions('Generate a Memo')">Generate Memo</button>
         <div class="chat-input">
             <div class="search-bar">
-                <input [(ngModel)]="message" placeholder="Ask anything..."> <button (click)="SendUserMessage()">Send</button>
+                <input [(ngModel)]="message" (keydown.enter)="SendUserMessage()" placeholder="Ask anything..."> <button (click)="SendUserMessage()">Send</button>
             </div>
         </div>
     </div>
 
     <!-- Upload documents interface -->
-    <div class="drop-area" id="drop-area" *ngIf="showUploadPage" (drop)="handleFileDrop($event)"
-        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
-        <p *ngIf="!showLoadingIcon">Drag & drop PDFs here</p>
+    <!-- <div class="drop-area" id="drop-area" *ngIf="showUploadPage" (drop)="handleFileDrop($event)"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"> -->
+        <!-- <div *ngIf="!showLoadingIcon">
+            <p >Drag & drop PDFs here</p>
+        </div> -->
         <!-- <p *ngIf="!showLoadingIcon && hasDocuments">or select a chat from the left!</p> -->
-        <mat-spinner [diameter]="50" *ngIf="showLoadingIcon"></mat-spinner>
-    </div>
+        <!-- <mat-spinner [diameter]="50" *ngIf="showLoadingIcon"></mat-spinner> -->
+    <!-- </div> -->
 </div>

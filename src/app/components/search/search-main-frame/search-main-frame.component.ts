@@ -10,24 +10,39 @@ import { BackendService } from 'src/app/services/service';
 })
 export class SearchMainFrameComponent implements OnInit {
 
-  public searchQuery : string = "";
-  public searchPlaceholderText : string = "Search Anything...";
-  public searchResponse : SearchResponse[] = [];
+  public searchQuery: string = "";
+  public searchPlaceholderText: string = "Search Anything...";
+  public searchResponse: SearchResponse[] = [];
 
-  public showResponsePage : boolean = false;
+  public showResponsePage: boolean = false;
+  public keywordSearchLabel: string = "Keyword Search"
 
-  constructor(private dataService : DataService) { }
+  public isSmartKeywordSearchEnabled : boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private dataService: DataService) { }
+
+  ngOnInit(): void { }
 
   public search() {
-    console.log(`Searching for ${this.searchQuery}`)
     this.showResponsePage = true;
     this.dataService.Search(this.searchQuery);
   }
 
   public disableSearchButton() {
     return this.searchQuery.trim().length == 0;
+  }
+
+  public onInputChange(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+    if(input.length == 1) return;
+    const element = document.getElementById("info-label");
+    if ((input.startsWith('"') && input.endsWith('"')) || (input.startsWith("'") && input.endsWith("'"))) {
+      if (element?.classList.contains("fade-out")) element.classList.remove("fade-out");
+      if (!element?.classList.contains("fade-in")) element?.classList.add("fade-in");
+    } else {
+      if (element?.classList.contains("fade-in")) element?.classList.remove("fade-in");
+      if (!element?.classList.contains("fade-out")) element?.classList.add("fade-out");
+    }
   }
 
 }

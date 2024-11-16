@@ -1,3 +1,5 @@
+import { Files } from "./contractFile";
+
 export interface ChatMessages {
     sessionId : string;
     fileName : string;
@@ -11,7 +13,13 @@ export interface Message {
 
 export interface NewMsgRequest {
     userId : string;
-    fileId : string;
     sessionId : string;
     message : string;
+}
+
+export interface AddFileOrCaseToSessionResponse {
+    sessionId : string;
+    title : string;
+    questions : string[];
+    filesInSession : Files[]
 }

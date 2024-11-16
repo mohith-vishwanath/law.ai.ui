@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentHistory } from 'src/app/models/contractFile';
+import { Sessions } from 'src/app/models/contractFile';
 
 @Component({
   selector: 'app-documents-main-frame',

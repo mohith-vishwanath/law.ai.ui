@@ -1,68 +1,111 @@
 <div class="results-main">
-    <div class="search-results">
-        <div class="top-section">
+    <div class="top-section">
+        <div>
             <div class="search-bar">
                 <input type="text" class="search-input" placeholder="{{searchPlaceholderText}}"
-                    [(ngModel)]="searchQuery">
+                    [(ngModel)]="searchQuery" (keydown.enter)="Search()">
                 <button class="search-button" (click)="Search()" [disabled]="DisableSearchButton()">Go</button>
             </div>
-            <div class="filters">
-
+            <div class="search-metadata">
+                <p>{{searchMetadata.type}}</p>
+                <button class="border-less-button" *ngIf="isAnyCaseChecked" (click)="MoveCasesToChat()">
+                    Move {{ numOfSelectedCases }} {{ numOfSelectedCases === 1 ? 'case' : 'cases' }} to Chat
+                </button>
             </div>
         </div>
+        <div class="filters">
+
+        </div>
+    </div>
+    <hr>
+    <div class="search-results">
         <div class="results-section">
-            <ng-container *ngFor="let result of results; let i = index">
-                <div class="result-case">
+            <div *ngIf="!isSearchLoading">
+                <div class="result-case" *ngFor="let result of GetListOfCases">
                     <div class="result-content">
-                        <p class="case-title"> <button class="clear-button"
-                                (click)="OpenCase(i)">{{result.title}}</button></p>
-                        <p class="case-summary">{{result.summary}}</p>
+                        <div class="case-title">
+                            <input type="checkbox" [checked]="result[1].isChecked"
+                                (change)="CheckboxClicked($event, result[0])">
+                            <p><button class="clear-button"
+                                    (click)="ShowSummary(result[0])">{{result[1].title}}</button></p>
+                        </div>
+                        <div class="summary" [innerHTML]="result[1].summary.Summary"></div>
                     </div>
                     <div class="case-footnote">
-                        <p *ngIf="result.numcites">Cited by {{result.numcites}}</p>
-                        <p *ngIf="result.date">Date {{result.date}}</p>
-                        <p *ngIf="result.score">Relevance {{result.score}}</p>
+                        <p class="case-metadata" *ngIf="result[1].numcites">Cited by {{result[1].numcites}}</p>
+                        <p class="case-metadata" *ngIf="result[1].date">{{result[1].date}}</p>
+                        <p class="case-metadata" *ngIf="result[1].source">{{result[1].source}}</p>
+                        <p class="case-metadata" *ngIf="result[1].score">Relevance {{result[1].score}}%</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="loading-spinner" *ngIf="isSearchLoading">
+                <div class="spinner-container">
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    <p>{{searchLoadingMessage}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="preview-section">
+            <div class="case-preview" *ngIf="showCasePreview">
+                <div class="case-preview-container">
+                    <div class="case-preview-title">
+                        <p>{{results[selectedCaseId]?.title}}</p>
+                        <button (click)="showCasePreview = !showCasePreview">Close</button>
+                    </div>
+                    <div class="case-text">
+                        <div [innerHTML]="results[selectedCaseId]?.html"></div>
                     </div>
                 </div>
-            </ng-container>
-        </div>
-    </div>
-    <div class="case-preview" *ngIf="showCasePreview">
-        <div class="case-preview-container">
-            <div class="case-preview-title">
-                <p>{{case?.title}}</p>
-                <button (click)="showCasePreview = !showCasePreview">X</button>
             </div>
-            <div class="case-text">
-                <div [innerHTML]="case?.doc"></div>
+            <div class="case-summary" *ngIf="showCaseSummary">
+                <div class="case-summary-container">
+                    <div class="summary-top-bar">
+                        <button class="border-less-button" (click)="OpenCase()">Open Case</button>
+                        <button class="border-less-button" (click)="CloseSummary()">Close</button>
+                    </div>
+                    <div class="section" id="summary" *ngIf="results[selectedCaseId]?.summary?.Summary">
+                        <p class="section-title">Summary</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Summary"></div>
+                    </div>
+                    <div class="section" id="facts" *ngIf="results[selectedCaseId]?.summary?.Facts">
+                        <p class="section-title">Facts</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Facts"></div>
+                    </div>
+                    <div class="section" id="arguments" *ngIf="results[selectedCaseId]?.summary?.Arguments">
+                        <p class="section-title">Arguments</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Arguments"></div>
+                    </div>
+                    <div class="section" id="reasoning" *ngIf="results[selectedCaseId]?.summary?.Reasoning">
+                        <p class="section-title">Reasoning</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Reasoning"></div>
+                    </div>
+                    <div class="section" id="conclusion" *ngIf="results[selectedCaseId]?.summary?.Conclusion">
+                        <p class="section-title">Conclusion</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Conclusion"></div>
+                    </div>
+                    <div class="section" id="laws" *ngIf="results[selectedCaseId]?.summary?.Laws">
+                        <p class="section-title">Laws</p>
+                        <hr>
+                        <div [innerHTML]="results[selectedCaseId]?.summary?.Laws"></div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="case-summary" *ngIf="!showCasePreview">
-        <div class="case-summary-container">
-            <div class="section" id="summary" *ngIf>
-                <p class="section-title">Summary</p>
-                <p>This case revolves around the validity of a caste certificate issued to respondent No. 15, claiming Scheduled Tribe status, and its implications on land sale transactions executed by his father and himself. The appellants, who purchased land from the original purchasers, challenge the cancellation of the sale deeds and the caste certificate. The High Court upheld the jurisdiction of the Committee to entertain the appeal regarding the caste certificate cancellation, which the appellants contest.</p>
-            </div>
-            <div class="section" id="facts">
-                <p class="section-title">Facts</p>
-                <p>Late Ramanand Baraik sold lands between 1980 and 1983, including to Sanjay Gupta and others in 1983. He worked as a driver and was recorded as belonging to the general category. After Ramanand's death in 1991, his son, respondent No. 15, obtained a Scheduled Tribe caste certificate in 1993. Respondent No. 15 sold land in 2000 and 2001, claiming to be from the general category. In 2004, he challenged the 1983 sale deeds as illegal. The appellants purchased the land in 2004 and later sought to cancel respondent No. 15's caste certificate, which was initially cancelled but later revoked by the Committee.</p>
-            </div>
-            <div class="section" id="arguments">
-                <p class="section-title">Arguments</p>
-                <p>The appellants argue that the Committee lacks jurisdiction to hear appeals on caste certificate cancellations and that respondent No. 15's actions, including selling land as a general category member and failing to produce evidence of his Scheduled Tribe status, indicate fraud. Respondents argue that the Committee has jurisdiction post-amendment and that they should not be left remediless.</p>
-            </div>
-            <div class="section" id="reasoning">
-                <p class="section-title">Reasoning</p>
-                <p>The Court finds that the Committee has jurisdiction post-amendment to hear the appeal on the caste certificate cancellation. However, considering the conduct of respondent No. 15 and his family, who sold lands without permission and claimed general category status, the Court finds no merit in his claim. The Court notes that the challenge to the 1983 sale deeds came much later and only after respondent No. 15 obtained the caste certificate.</p>
-            </div>
-            <div class="section" id="conclusion">
-                <p class="section-title">Conclusion</p>
-                <p>The appeal is allowed, and the High Court's judgment is set aside. The Court finds no merit in respondent No. 15's claim to Scheduled Tribe status and deems it futile to remit the matter back to any authority for further examination.</p>
-            </div>
-            <div class="section" id="laws">
-                <p class="section-title">Laws</p>
-                <p>The West Bengal Land Reforms Act, 1955 (Sections 14B, 14C, 14E, and 14H); The West Bengal Scheduled Castes and Scheduled Tribes (Identification) Act, 1994 (Section 8A); The West Bengal Scheduled Castes and Scheduled Tribes (Identification) (Amendment) Act, 2017. The laws are referred to in the context of the requirement for permissions to sell land by Scheduled Tribes, the jurisdiction of the Committee to hear appeals on caste certificate cancellations, and the procedural aspects of the case. The amendments to Section 8A of the 1994 Act are discussed in terms of their retrospective application.</p>
+            <div class="case-summary" *ngIf="!showCasePreview && !showCaseSummary && !isSearchLoading">
+                <div class="case-summary-container">
+                    <div class="ai-overview-title">
+                        <b> <img src="../../../../assets/text.quote.png" alt="Logo" class="inline-image"> AI
+                            Overview</b>
+                        <hr>
+                    </div>
+                    <div [innerHTML]="searchMetadata.summary"></div>
+                </div>
             </div>
         </div>
     </div>

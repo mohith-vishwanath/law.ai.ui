@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { DocumentHistory } from 'src/app/models/contractFile';
+import { Sessions } from 'src/app/models/contractFile';
 import { marked } from 'marked';
+import {v4} from "uuid"
 
 @Component({
   selector: 'app-chat',
@@ -16,21 +17,25 @@ export class ChatComponent implements OnInit {
 
   public message : string = "";
 
-  public CurrentConversation: DocumentHistory | undefined = undefined;
+  public CurrentSession: Sessions | undefined = undefined;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.dataService.GetCurrentConversation().subscribe(conversation => {
-      if(conversation?.fileId == undefined)  return;
-      this.CurrentConversation = conversation;
 
-      for(let i = 0; i < conversation.chats.length; i++) {
-        if(conversation.chats[i].role == "assistant") conversation.chats[i].content = marked(conversation.chats[i].content).toString()
+    this.dataService.CurrentSession$.subscribe(messages => {
+      this.CurrentSession = messages;
+      if(!messages || !messages.chats) {
+        this.showUploadPage = true;
+        this.showLoadingIcon = false;
+        return;
       }
-
+      for(let i = 0; i < messages.chats?.length; i++) {
+        if(messages.chats[i].role == "assistant") messages.chats[i].content = marked(messages.chats[i].content).toString()
+      }
       this.showUploadPage = false;
-    });
+      this.showLoadingIcon = false;
+    })
   }
 
   ngAfterViewInit(): void {
@@ -51,10 +56,7 @@ export class ChatComponent implements OnInit {
     let files = event.dataTransfer?.files;
     if (files == undefined) return;
     this.showLoadingIcon = true;
-    this.dataService.UploadDocument(files[0]).subscribe(res => {
-      if(!res) return;
-      this.showLoadingIcon = false;
-    })
+    this.dataService.UploadDocument(files[0]);
   }
 
   public onDragOver(event: DragEvent) {
@@ -72,9 +74,13 @@ export class ChatComponent implements OnInit {
     if(this.message.trim() == "") return; //Make sure the message isn't empty
 
     //Update the message in the current conversation
-    this.dataService.AddMsgToCurrentConversation(this.message);
+    this.dataService.AddMsgToCurrentSession(this.message);
 
     this.message = "";
+  }
+
+  public Questions(question : string) {
+    this.dataService.AddMsgToCurrentSession(question);
   }
 
 }

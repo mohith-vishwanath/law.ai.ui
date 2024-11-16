@@ -4,8 +4,12 @@
             <p>What can I help you with?</p>
         </div>
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="{{searchPlaceholderText}}" [(ngModel)]="searchQuery">
+            <input type="text" class="search-input" (input)="onInputChange($event)" (keydown.enter)="search()" placeholder="{{searchPlaceholderText}}" [(ngModel)]="searchQuery">
             <button class="search-button" (click)="search()" [disabled]="disableSearchButton()">Go</button>
+        </div>
+        <div id="info-label" class="search-info-label fade-out">
+            <p >{{keywordSearchLabel}}</p>
+            <!-- <mat-checkbox color="primary" [(ngModel)]="isSmartKeywordSearchEnabled">Smart Keyword Search</mat-checkbox> -->
         </div>
     </div>
 

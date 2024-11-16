@@ -1,23 +1,21 @@
 export interface Case{
-    tid : number;
+    id : number;
     title : string;
     date : string;
-    cites : Citations[];
     numcites : number;
     numcitedby : number;
-    doc : string;
-}
-
-export interface Citations {
-    tid : number;
-    title : string;
+    html : string;
+    summary : CaseSummary;
+    source : string;
+    score : number;
+    isChecked : boolean;
 }
 
 export interface CaseSummary {
-    summary : string;
-    facts : string;
-    reasoning : string;
-    arguments : string;
-    conclusion : string;
-    laws : string;
+    Summary : string;
+    Facts : string;
+    Reasoning : string;
+    Arguments : string;
+    Conclusion : string;
+    Laws : string;
 }

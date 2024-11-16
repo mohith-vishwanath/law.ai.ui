@@ -1,143 +1,70 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SearchResponse } from '../models/response';
 import { HttpClient } from '@angular/common/http';
-import { DocumentHistory, UploadFileResponse } from '../models/contractFile';
-import { ChatMessages, Message, NewMsgRequest } from '../models/chat';
-import { Case } from '../models/case';
+import { Sessions, UploadFileResponse } from '../models/contractFile';
+import { AddFileOrCaseToSessionResponse, ChatMessages, Message, NewMsgRequest } from '../models/chat';
+import { Case, CaseSummary } from '../models/case';
+import { delay } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
 
   private host: string = "http://localhost:8000";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
+
+  public Search(query: string): Observable<SearchResponse> {
+    // return of({} as SearchResponse).pipe(delay(10000));
+    return this.http.get<SearchResponse>(`${this.host}/search/query?input=${query}`).pipe(
+      delay(2000)
+    );
   }
 
-  public Search(query: string): Observable<SearchResponse[]> {
-    return this.http.get<SearchResponse[]>(`${this.host}/search/query?input=${query}`);
-  }
-
-  public UploadDocument(file: File, userId: string): Observable<UploadFileResponse> {
-    const formData = new FormData(); // Create form data
+  public AddFilesToSession(file: File, userId: string, sessionId : string): Observable<AddFileOrCaseToSessionResponse> {
+    const formData = new FormData();
     formData.append('file', file);
     formData.append('userId', userId);
-    return this.http.post<UploadFileResponse>(`${this.host}/contract/upload`, formData);
+    formData.append('sessionId', sessionId);
+    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/document`, formData);
   }
 
-  public GetUploadedDocuments(userId: string): Observable<DocumentHistory[]> {
-    return this.http.get<DocumentHistory[]>(`${this.host}/contract/documents?userId=${userId}`)
+  public AddCasesToSession(userId: string, sessionId: string, cases: string): Observable<AddFileOrCaseToSessionResponse> {
+    const payload = {
+      userId: userId,
+      sessionId: sessionId,
+      cases: cases
+    };
+    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/upload/cases`, payload);
+  }
+  
+
+  public GetUserChatHistory(userId: string): Observable<Sessions[]> {
+    return this.http.get<Sessions[]>(`${this.host}/chat/sessions?userId=${userId}`)
   }
 
-  public GetChatMessageForUserWithSessionId(sessionId: string, userId: string, fileId: string): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.host}/contract/chat-history?userId=${userId}&sessionId=${sessionId}&fileId=${fileId}`);
+  public GetMessagesForUserWithSessionId(sessionId: string, userId: string): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.host}/chat/chat-history?userId=${userId}&sessionId=${sessionId}`);
   }
 
   public SendUserMsg(request: NewMsgRequest): Observable<Message> {
     const formData = new FormData(); // Create form data
     formData.append('userId', request.userId);
     formData.append('sessionId', request.sessionId);
-    formData.append('fileId', request.fileId);
     formData.append('message', request.message);
-    return this.http.post<Message>(`${this.host}/contract/query`,formData);
+    return this.http.post<Message>(`${this.host}/chat/query`,formData);
   }
 
   public GetCaseText(id : number) : Observable<Case> {
     return this.http.get<Case>(`${this.host}/search/case?caseId=${id}`)
   }
 
-  //Dummy Function to get messages
-  public GetMessages(): ChatMessages {
-    return {
-      sessionId: "7687-192830-sdnkcj3-n3rj928",
-      fileName: "Scholarship.pdf",
-      messages: [
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "user-message",
-          content: "How can I help you today?"
-        },
-        {
-          role: "assistant-message",
-          content: "How can I help you today?"
-        }
-      ]
-    } as ChatMessages;
+  public GetCaseSummary(id : number) : Observable<CaseSummary> {
+    return this.http.get<CaseSummary>(`${this.host}/search/summary?caseId=${id}`);
+  }
+
+  public LogInWithGoogle() {
+    return this.http.get(`${this.host}/auth/google`,{withCredentials : true})
   }
 
 }

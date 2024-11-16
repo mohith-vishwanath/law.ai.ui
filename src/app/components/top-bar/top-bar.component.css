@@ -5,15 +5,19 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: rgb(247, 247, 247);
+    /* background-color: rgb(247, 247, 247); */
+    /* background-color: bisque; */
+    background-color: rgb(255, 233, 204);
     z-index: 1000;
 }
 
-.right {
+.left {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.left {
+.right {
     display: flex;
 }
 
@@ -21,11 +25,15 @@
     margin-right: 5px;
     margin-left: 5px;
     font-weight: 300;
+    color: rgb(172, 98, 0);;
 }
 
 .title {
+    color: rgb(172, 98, 0);
     font-size: 20px;
     padding-top: 5px;
+    margin: 0;
+    font-weight: 500;
 }
 
 .logo img {

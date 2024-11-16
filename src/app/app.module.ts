@@ -23,9 +23,11 @@ import { DocumentsMainFrameComponent } from './components/documents/documents-ma
 import { ChatHistorySideBarComponent } from './components/documents/chat-history-side-bar/chat-history-side-bar.component';
 import { ChatComponent } from './components/documents/chat/chat.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { HomeScreenComponent } from './components/home-screen/home-screen.component';
 
 @NgModule({
-  declarations: [AppComponent, TopBarComponent, MainFrameComponent, SearchResultsComponent, SearchMainFrameComponent, DocumentsMainFrameComponent, ChatHistorySideBarComponent, ChatComponent],
+  declarations: [AppComponent, TopBarComponent, MainFrameComponent, SearchResultsComponent, SearchMainFrameComponent, DocumentsMainFrameComponent, ChatHistorySideBarComponent, ChatComponent, HomeScreenComponent],
   imports: [BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -39,7 +41,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatListModule,
     MatExpansionModule,
     MatSidenavModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
   providers: [BackendService],
   bootstrap: [AppComponent],

@@ -8,32 +8,32 @@ import { Router } from '@angular/router';
 })
 export class TopBarComponent implements OnInit {
 
-  private sections : string[] = [];
+  private sections: string[] = [];
 
-  constructor(private router : Router) { 
+  constructor(private router: Router) {
     this.sections = [
       "search",
-      "documents",
+      "chat",
       "about"
     ]
   }
 
-  ngAfterViewInit() : void {
+  ngAfterViewInit(): void {
     var section = window.location.pathname;
-    if(section.startsWith("/")) section = section.split("/")[1]
+    if (section.startsWith("/")) section = section.split("/")[1]
     this.AddBoldToSection(section);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  public buttonClick(section : string) {
-this.AddBoldToSection(section)
+  public buttonClick(section: string) {
+    this.AddBoldToSection(section)
   }
 
-  private AddBoldToSection(section : string) {
+  private AddBoldToSection(section: string) {
     this.sections.forEach(x => {
       var element = document.getElementById(x);
-      if(x==section) element?.classList.add("bold")
+      if (x == section) element?.classList.add("bold")
       else element?.classList.remove("bold")
     })
   }
