@@ -16,9 +16,7 @@ export class BackendService {
 
   public Search(query: string): Observable<SearchResponse> {
     // return of({} as SearchResponse).pipe(delay(10000));
-    return this.http.get<SearchResponse>(`${this.host}/search/query?input=${query}`).pipe(
-      delay(2000)
-    );
+    return this.http.get<SearchResponse>(`${this.host}/search/query?input=${query}`);
   }
 
   public AddFilesToSession(file: File, userId: string, sessionId : string): Observable<AddFileOrCaseToSessionResponse> {
@@ -26,7 +24,7 @@ export class BackendService {
     formData.append('file', file);
     formData.append('userId', userId);
     formData.append('sessionId', sessionId);
-    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/document`, formData);
+    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/upload/document`, formData);
   }
 
   public AddCasesToSession(userId: string, sessionId: string, cases: string): Observable<AddFileOrCaseToSessionResponse> {
@@ -52,6 +50,7 @@ export class BackendService {
     formData.append('userId', request.userId);
     formData.append('sessionId', request.sessionId);
     formData.append('message', request.message);
+    console.log(formData);
     return this.http.post<Message>(`${this.host}/chat/query`,formData);
   }
 
@@ -65,6 +64,10 @@ export class BackendService {
 
   public LogInWithGoogle() {
     return this.http.get(`${this.host}/auth/google`,{withCredentials : true})
+  }
+
+  public DeleteSession(userId : string, sessionId : string) : Observable<boolean> {
+    return this.http.delete<boolean>(`${this.host}/chat/delete/session?userId=${userId}&sessionId=${sessionId}`);
   }
 
 }

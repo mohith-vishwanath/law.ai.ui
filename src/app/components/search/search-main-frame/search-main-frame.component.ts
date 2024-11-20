@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SearchResponse } from 'src/app/models/response';
 import { DataService } from 'src/app/services/data.service';
 import { BackendService } from 'src/app/services/service';
+import { SplashScreenComponent } from '../../splash-screens/splash-screen/splash-screen.component';
 
 @Component({
   selector: 'app-search-main-frame',
@@ -19,13 +21,19 @@ export class SearchMainFrameComponent implements OnInit {
 
   public isSmartKeywordSearchEnabled : boolean = false;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private dialog: MatDialog) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+    // const dialogRef = this.dialog.open(SplashScreenComponent);
+  
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     console.log(`Dialog result: ${result}`);
+    //   });
+   }
 
   public search() {
     this.showResponsePage = true;
-    this.dataService.Search(this.searchQuery);
   }
 
   public disableSearchButton() {

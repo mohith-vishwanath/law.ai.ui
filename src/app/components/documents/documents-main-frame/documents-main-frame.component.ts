@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Sessions } from 'src/app/models/contractFile';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-documents-main-frame',
@@ -8,8 +9,10 @@ import { Sessions } from 'src/app/models/contractFile';
 })
 export class DocumentsMainFrameComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService : DataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataService.FetchSessionsHistory();
+  }
 
 }

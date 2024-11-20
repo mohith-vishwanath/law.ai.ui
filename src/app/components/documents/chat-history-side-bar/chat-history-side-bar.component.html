@@ -1,19 +1,26 @@
 <div class="chat-history-main">
-    <ng-container *ngIf="hasDocuments">
+    <ng-container *ngIf="!isHistoryEmpty">
         <div>
             <!-- Heading -->
-             <div class="top-bar">
-                <p class="history-heading">Your History</p>
-                <button (click)="CreateNewChatSession()">+</button>
-             </div>
-
-             <hr>
-             <div class="document" *ngFor="let doc of history; let i = index">
-                <button mat-button [ngClass]="{'selected' : doc.isSelected}" class="document-button" id="{{i}}" (click)="ConversationSelected(i)">{{doc.title}}</button>
-             </div>
+            <div class="top-bar">
+                <p class="history-heading">Chats History</p>
+                <button (click)="CreateNewChatSession()"><mat-icon>add_circle</mat-icon></button>
+            </div>
+            <div class="document" *ngFor="let doc of history; let i = index">
+                <button mat-button [ngClass]="{'selected' : doc.isSelected}" class="document-button" id="{{i}}"
+                    (click)="ConversationSelected(i)">{{doc.title}}</button>
+                <div>
+                    <button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item><mat-icon>edit</mat-icon>Rename</button>
+                        <button mat-menu-item><mat-icon>info</mat-icon>Session Info</button>
+                        <button mat-menu-item><mat-icon>delete</mat-icon>Delete</button>
+                    </mat-menu>
+                </div>
+            </div>
         </div>
     </ng-container>
-    <ng-container *ngIf="!hasDocuments">
+    <ng-container *ngIf="isHistoryEmpty">
         <div id="no-history">
             <p>No history</p>
         </div>

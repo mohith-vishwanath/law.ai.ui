@@ -21,21 +21,21 @@
     <div class="search-results">
         <div class="results-section">
             <div *ngIf="!isSearchLoading">
-                <div class="result-case" *ngFor="let result of GetListOfCases">
+                <div class="result-case" *ngFor="let result of results">
                     <div class="result-content">
                         <div class="case-title">
-                            <input type="checkbox" [checked]="result[1].isChecked"
-                                (change)="CheckboxClicked($event, result[0])">
+                            <input type="checkbox" [checked]="result.isChecked"
+                                (change)="CheckboxClicked($event, result.id)">
                             <p><button class="clear-button"
-                                    (click)="ShowSummary(result[0])">{{result[1].title}}</button></p>
+                                    (click)="ShowSummary(result.id)">{{result.title}}</button></p>
                         </div>
-                        <div class="summary" [innerHTML]="result[1].summary.Summary"></div>
+                        <div class="summary" [innerHTML]="result.summary.Summary"></div>
                     </div>
                     <div class="case-footnote">
-                        <p class="case-metadata" *ngIf="result[1].numcites">Cited by {{result[1].numcites}}</p>
-                        <p class="case-metadata" *ngIf="result[1].date">{{result[1].date}}</p>
-                        <p class="case-metadata" *ngIf="result[1].source">{{result[1].source}}</p>
-                        <p class="case-metadata" *ngIf="result[1].score">Relevance {{result[1].score}}%</p>
+                        <p class="case-metadata" *ngIf="result.numcites">Cited by {{result.numcites}}</p>
+                        <p class="case-metadata" *ngIf="result.date">{{result.date}}</p>
+                        <p class="case-metadata" *ngIf="result.source">{{result.source}}</p>
+                        <p class="case-metadata" *ngIf="result.score">Relevance {{result.score}}%</p>
                     </div>
                     <hr>
                 </div>
@@ -51,49 +51,55 @@
             <div class="case-preview" *ngIf="showCasePreview">
                 <div class="case-preview-container">
                     <div class="case-preview-title">
-                        <p>{{results[selectedCaseId]?.title}}</p>
-                        <button (click)="showCasePreview = !showCasePreview">Close</button>
+                        <p>{{selectedCase?.title}}</p>
+                        <button class="border-less-button" (click)="showCasePreview = !showCasePreview">Close</button>
                     </div>
                     <div class="case-text">
-                        <div [innerHTML]="results[selectedCaseId]?.html"></div>
+                        <div [innerHTML]="selectedCase?.html"></div>
                     </div>
                 </div>
             </div>
             <div class="case-summary" *ngIf="showCaseSummary">
                 <div class="case-summary-container">
                     <div class="summary-top-bar">
-                        <button class="border-less-button" (click)="OpenCase()">Open Case</button>
-                        <button class="border-less-button" (click)="CloseSummary()">Close</button>
+                        <div class="summary-top-bar-title">
+                            <img src="../../../../assets/square.fill.text.grid.1x2.png" alt="Logo" class="inline-image">
+                            <b>Case Insights</b>
+                        </div>
+                        <div>
+                            <button class="border-less-button" (click)="OpenCase()">Open Case</button>
+                            <button class="border-less-button" (click)="CloseSummary()">Close</button>
+                        </div>
                     </div>
-                    <div class="section" id="summary" *ngIf="results[selectedCaseId]?.summary?.Summary">
+                    <div class="section" id="summary" *ngIf="selectedCase?.summary?.Summary">
                         <p class="section-title">Summary</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Summary"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Summary"></div>
                     </div>
-                    <div class="section" id="facts" *ngIf="results[selectedCaseId]?.summary?.Facts">
+                    <div class="section" id="facts" *ngIf="selectedCase?.summary?.Facts">
                         <p class="section-title">Facts</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Facts"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Facts"></div>
                     </div>
-                    <div class="section" id="arguments" *ngIf="results[selectedCaseId]?.summary?.Arguments">
+                    <div class="section" id="arguments" *ngIf="selectedCase?.summary?.Arguments">
                         <p class="section-title">Arguments</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Arguments"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Arguments"></div>
                     </div>
-                    <div class="section" id="reasoning" *ngIf="results[selectedCaseId]?.summary?.Reasoning">
+                    <div class="section" id="reasoning" *ngIf="selectedCase?.summary?.Reasoning">
                         <p class="section-title">Reasoning</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Reasoning"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Reasoning"></div>
                     </div>
-                    <div class="section" id="conclusion" *ngIf="results[selectedCaseId]?.summary?.Conclusion">
+                    <div class="section" id="conclusion" *ngIf="selectedCase?.summary?.Conclusion">
                         <p class="section-title">Conclusion</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Conclusion"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Conclusion"></div>
                     </div>
-                    <div class="section" id="laws" *ngIf="results[selectedCaseId]?.summary?.Laws">
+                    <div class="section" id="laws" *ngIf="selectedCase?.summary?.Laws">
                         <p class="section-title">Laws</p>
                         <hr>
-                        <div [innerHTML]="results[selectedCaseId]?.summary?.Laws"></div>
+                        <div [innerHTML]="selectedCase?.summary?.Laws"></div>
                     </div>
                 </div>
             </div>

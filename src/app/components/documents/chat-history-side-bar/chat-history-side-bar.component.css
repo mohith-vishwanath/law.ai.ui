@@ -1,6 +1,7 @@
 .chat-history-main {
     width: 20vw;
-    height: 100vh;
+    height: 80vh;
+    position: sticky
 }
 
 hr {
@@ -9,7 +10,7 @@ hr {
 }
 
 #no-history {
-    display : flex;
+    display: flex;
     margin: auto;
     justify-content: center;
     align-items: center;
@@ -23,11 +24,15 @@ hr {
 }
 
 .history-heading {
-    padding : 15px 17px;
+    padding: 15px 17px;
     margin: 0;
     font-size: 15px;
     color: rgb(40, 40, 40);
     font-weight: 500;
+}
+
+.document {
+    display: flex;
 }
 
 .document-button {
@@ -54,8 +59,8 @@ hr {
 .top-bar button {
     background-color: transparent;
     border: none;
-    color: rgb(0, 123, 255);
-    margin: 3px 7px;
+    color: rgb(65, 65, 65);
+    margin: 12px 13px;
     cursor: pointer;
     font-weight: 600;
     font-size: 25px;

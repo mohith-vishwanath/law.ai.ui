@@ -1,7 +1,7 @@
 .chat-main {
-    height: 100vh;
+    height: 80vh;
     width: 80vw;
-    background-color: rgb(237, 237, 237);
+    background-color: rgb(254, 254, 254);
 }
 
 .drop-area {
@@ -11,10 +11,14 @@
     font-size: 17px;
     font-weight: 600;
     margin: auto;
-    display: flex; /* Use flexbox to center contents */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    text-align: center; /* Center text within the div */
+    display: flex;
+    /* Use flexbox to center contents */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    text-align: center;
+    /* Center text within the div */
     transition: 0.2s ease-in-out;
 }
 
@@ -31,18 +35,20 @@
 }
 
 .assistant {
-    background-color: rgb(0, 128, 255);
-    border-radius: 10px;
-    padding: 10px;
+    background-color: rgb(238, 238, 238);
+    border-radius: 15px;
+    padding: 10px 15px;
+    width: -moz-fit-content;
     width: fit-content;
-    max-width: 50%;
+    max-width: 80%;
     margin-top: 5px;
     margin-bottom: 5px;
-    color: white;
+    color: black;
+    border: 1px rgb(0, 0, 0) solid;
 }
 
 .user {
-    background-color: rgb(0, 57, 115);
+    background-color: rgb(43, 43, 43);
     border-radius: 10px;
     padding: 10px;
     width: fit-content;
@@ -60,17 +66,17 @@
 
 .chat-messages {
     overflow-y: scroll;
-    height: 90vh;
+    height: 80vh;
     padding: 20px 20px;
 }
 
 .chat-input {
-    height: 8%;
+    height: 10%;
     display: flex;
+    flex-direction: column;
     position: sticky;
-    bottom: 0;
-    margin: 0;
-    background-color: rgb(237, 237, 237);
+    bottom: 9px;
+    margin: 9px 0px;
 }
 
 /* .input-field {
@@ -84,37 +90,71 @@
     width: 85%;
 } */
 
+.floating-buttons {
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+    margin: auto;
+}
+
+.floating-button {
+    padding: 6px;
+    margin: 2px 4px;
+    border: 1px solid rgb(125, 125, 125);
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.floating-button:hover {
+    padding: 6px;
+    margin: 2px 4px;
+    border: 1px solid rgb(125, 125, 125);
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(54, 54, 54);
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
 .search-bar {
     display: flex;
     border-radius: 20px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(246, 246, 246);
+    border: 1px rgb(229, 229, 229) solid;
     width: 80vw;
     max-width: 85%;
     padding: 7px 10px;
     position: sticky;
-    bottom: 0;
+    bottom: 5px;
     margin: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); */
+    /* Light shadow */
 }
 
 .search-bar input {
     background-color: transparent;
     border: none;
     outline: none;
-    color: #000000; /* Text color */
+    color: #000000;
+    /* Text color */
     font-size: 13px;
-    padding: 5px; /* Padding for input */
+    padding: 5px;
+    /* Padding for input */
     flex: 1;
 }
 
 .search-bar button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     padding: 8px;
     margin-left: 8px;
     cursor: pointer;
-    color: rgb(0, 0, 0); /* Button text/icon color */
-    font-size: 14px; /* Font size for button */
+    color: rgb(0, 0, 0);
+    /* Button text/icon color */
+    font-size: 14px;
+    /* Font size for button */
 }
 
 .chat-info-message {

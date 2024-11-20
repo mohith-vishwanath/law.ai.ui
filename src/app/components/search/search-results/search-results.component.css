@@ -1,5 +1,5 @@
 p {
-    margin : 3px;
+    margin: 3px;
 }
 
 hr {
@@ -41,9 +41,11 @@ hr {
 .search-bar {
     display: flex;
     border-radius: 20px;
-    background-color: rgb(234, 234, 234);
     width: 600px;
-    padding: 10px 10px;
+    max-width: 85%;
+    padding: 6px 10px;
+    background-color: rgb(246, 246, 246);
+    border: 1px rgb(229, 229, 229) solid;
 }
 
 .search-bar input {
@@ -57,7 +59,7 @@ hr {
 }
 
 .search-bar button {
-    background-color:rgb(61, 61, 61);
+    background-color: rgb(61, 61, 61);
     border: none;
     border-radius: 50%;
     padding: 8px;
@@ -84,7 +86,7 @@ hr {
 ::ng-deep .mat-progress-spinner circle {
     stroke: #363636;
 }
-  
+
 
 .loading-spinner {
     width: 100%;
@@ -99,7 +101,7 @@ hr {
     margin: 10px;
     animation: pulse 1s infinite ease-in-out;
     font-weight: 500;
-    color: #363636; 
+    color: #363636;
     font-size: 15px;
 }
 
@@ -109,17 +111,20 @@ hr {
 }
 
 mat-spinner {
-    margin : auto
+    margin: auto
 }
 
 @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
+
+    0%,
+    100% {
+        opacity: 1;
     }
+
     50% {
-      opacity: 0.5;
+        opacity: 0.5;
     }
-  }
+}
 
 .result-case {
     padding: 10px;
@@ -151,7 +156,7 @@ mat-spinner {
 .case-footnote {
     display: flex;
     align-items: flex-start;
-    margin : 5px 0
+    margin: 5px 0
 }
 
 .case-footnote p {
@@ -170,7 +175,7 @@ mat-spinner {
 }
 
 .clear-button:hover {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .case-preview-container {
@@ -240,13 +245,26 @@ mat-spinner {
     justify-content: space-between;
 }
 
+.summary-top-bar-title {
+    display: flex;
+    font-size: 18px;
+}
+
+.summary-top-bar-title img {
+    margin: 3px;
+}
+
+.summary-top-bar-title b {
+    margin: 0px 5px;
+}
+
 .border-less-button {
     background-color: transparent;
     border: none;
     color: rgb(0, 140, 255);
     cursor: pointer;
     font-size: 12px;
-    margin : 3px;
+    margin: 3px;
 }
 
 .search-metadata {
@@ -268,7 +286,7 @@ mat-spinner {
 }
 
 .ai-overview-title {
-    font-size: 14px;
+    font-size: 18px;
     padding-bottom: 20px;
     padding: 10px 0px;
 }

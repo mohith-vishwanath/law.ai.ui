@@ -22,4 +22,5 @@ export interface AddFileOrCaseToSessionResponse {
     title : string;
     questions : string[];
     filesInSession : Files[]
+    type : string; //is it a case chat or a document chat
 }

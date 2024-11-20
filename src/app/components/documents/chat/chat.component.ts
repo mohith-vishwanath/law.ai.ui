@@ -1,8 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Sessions } from 'src/app/models/contractFile';
 import { marked } from 'marked';
-import {v4} from "uuid"
 
 @Component({
   selector: 'app-chat',
@@ -13,28 +12,31 @@ export class ChatComponent implements OnInit {
 
   public showUploadPage: boolean = true;
   public showLoadingIcon: boolean = false;
-  // public hasDocuments : boolean = false;
+  public hasMessages : boolean = false;
 
   public message : string = "";
 
-  public CurrentSession: Sessions | undefined = undefined;
+  public CurrentSession : Sessions | undefined = undefined;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
 
-    this.dataService.CurrentSession$.subscribe(messages => {
-      this.CurrentSession = messages;
-      if(!messages || !messages.chats) {
-        this.showUploadPage = true;
-        this.showLoadingIcon = false;
-        return;
-      }
-      for(let i = 0; i < messages.chats?.length; i++) {
-        if(messages.chats[i].role == "assistant") messages.chats[i].content = marked(messages.chats[i].content).toString()
-      }
-      this.showUploadPage = false;
+    this.dataService.CurrentSession$.subscribe(session => {
+      console.log(session);
       this.showLoadingIcon = false;
+      if(session?.chats == undefined) {
+        this.hasMessages = false;
+        this.CurrentSession = undefined;
+      } else if(session.chats) {
+        this.hasMessages = session.chats.length > 0;
+        this.CurrentSession = session;
+        for(let i = 0; i< (this.CurrentSession.chats?.length || 0); i++) {
+          if(this.CurrentSession && this.CurrentSession.chats) {
+            this.CurrentSession.chats[i].content = marked(this.CurrentSession?.chats[i]?.content).toString();
+          }
+        }
+      }
     })
   }
 
@@ -67,14 +69,19 @@ export class ChatComponent implements OnInit {
     document.getElementById('drop-area')?.classList.remove('drag-over');
   }
 
-  //File Upload handling
+  public QuickPromptButtons(question : string) {
+    this.message = question;
+    this.SendUserMessage(this.message);
+  }
 
-  public SendUserMessage() {
+  public SendUserMessage(question : string = "") {
 
-    if(this.message.trim() == "") return; //Make sure the message isn't empty
+    if(this.message.trim() == "" && question == "") return; //Make sure the message isn't empty
+
+    const userMessage = this.message ?? question;
 
     //Update the message in the current conversation
-    this.dataService.AddMsgToCurrentSession(this.message);
+    this.dataService.AddMsgToCurrentSession(userMessage);
 
     this.message = "";
   }

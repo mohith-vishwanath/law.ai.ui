@@ -1,5 +1,5 @@
 .documents-main {
     display: flex;
-    height: 95vh;
-    width: 100vw;
+    /* height: 80vh; */
+    width: 100%;
 }

@@ -15,7 +15,7 @@ export interface CaseSummary {
     Summary : string;
     Facts : string;
     Reasoning : string;
-    Arguments : string;
+    Arguments : any;
     Conclusion : string;
     Laws : string;
 }

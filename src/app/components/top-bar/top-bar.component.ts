@@ -8,33 +8,30 @@ import { Router } from '@angular/router';
 })
 export class TopBarComponent implements OnInit {
 
-  private sections: string[] = [];
+  public sections: {[key: string]: boolean} = {};
+  private defaultLandingPage : string = "search"
 
   constructor(private router: Router) {
-    this.sections = [
-      "search",
-      "chat",
-      "about"
-    ]
+    this.sections = {
+      "home" : false,
+      "search" : true,
+      "chat" : false,
+      "about" : false
+    }
   }
 
   ngAfterViewInit(): void {
     var section = window.location.pathname;
-    if (section.startsWith("/")) section = section.split("/")[1]
-    this.AddBoldToSection(section);
+    if (section.startsWith("/")) section = section.split("/")[1] ?? this.defaultLandingPage;
+    this.ChangeSection(section);
   }
 
   ngOnInit(): void { }
 
-  public buttonClick(section: string) {
-    this.AddBoldToSection(section)
-  }
-
-  private AddBoldToSection(section: string) {
-    this.sections.forEach(x => {
-      var element = document.getElementById(x);
-      if (x == section) element?.classList.add("bold")
-      else element?.classList.remove("bold")
+  public ChangeSection(section: string) {
+    Object.keys(this.sections).forEach(x => {
+      if(x==section) this.sections[x] = true;
+      else this.sections[x] = false;
     })
   }
 }

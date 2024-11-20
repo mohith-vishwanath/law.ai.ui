@@ -7,8 +7,9 @@
     padding: 10px 20px;
     /* background-color: rgb(247, 247, 247); */
     /* background-color: bisque; */
-    background-color: rgb(255, 233, 204);
+    background-color: rgb(65,65,65);
     z-index: 1000;
+    height: 3.5vh;
 }
 
 .left {
@@ -25,11 +26,18 @@
     margin-right: 5px;
     margin-left: 5px;
     font-weight: 300;
-    color: rgb(172, 98, 0);;
+    color: rgb(173, 173, 173);;
+}
+
+.top-bar-button:hover {
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white;
+    transition: ease-in-out 0.1s;
 }
 
 .title {
-    color: rgb(172, 98, 0);
+    color: rgb(255, 255, 255);
     font-size: 20px;
     padding-top: 5px;
     margin: 0;
@@ -42,7 +50,8 @@
     margin-right: 15px;
 }
 
-.bold {
+.selected {
     font-weight: 600;
+    color: white;
 }
 
