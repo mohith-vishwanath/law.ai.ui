@@ -1,7 +1,8 @@
 .chat-history-main {
     width: 20vw;
-    height: 80vh;
-    position: sticky
+    height: 94vh;
+    position: sticky;
+    background-color: rgb(249, 249, 249);
 }
 
 hr {

@@ -3,8 +3,10 @@
         <p class="title">
             Redefine legal research with AI precision.
         </p>
-        <button (click)="SignInWithGoogle()">
-            Sign in with Google
-        </button>
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+         <button (click)="SignInWithGoogle()" [disabled]="!enableGoogleSignIn">{{ enableGoogleSignIn ? 'Sign In with Google' : 'Please wait...' }}</button>
+         <div *ngIf="isLoggedIn">
+            <p>Welcome {{user.getName()}}</p>
+         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
   selector: 'app-home-screen',
   templateUrl: './home-screen.component.html',
@@ -9,15 +10,42 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeScreenComponent implements OnInit {
 
-  constructor(private dataService : DataService, private userService : UserService) { }
+  public enableGoogleSignIn : boolean = false;
+
+  constructor(private dataService : DataService, 
+    private userService : UserService,
+  ) { 
+
+    setTimeout(() => {
+      this.enableGoogleSignIn = true;
+    }, 3000);
+
+  }
+
+  public isLoggedIn : boolean = false;
+
+  public user : any;
 
   ngOnInit(): void {}
 
-  public SignInWithGoogle() {
-    this.userService.LogInWithGoogle().subscribe(x => {
-      console.log(`Sign in with Google response`)
-      console.log(x)
-    });
-  }
+  public SignInWithGoogle() : void {
 
+    if(!this.enableGoogleSignIn) return;
+
+    console.log("Signing in to Google!")
+    this.userService.SignInWithGoogle().then(
+      (googleUser) => {
+        console.log(`Logged In!`)
+        const profile = googleUser.getBasicProfile();
+        const idToken = googleUser.getAuthResponse().id_token;
+  
+        console.log('Name:', profile.getName());
+        console.log('Email:', profile.getEmail());
+        console.log('ID Token:', idToken);
+      },
+      (error) => {
+        console.error('Error signing in:', error);
+      }
+    );
+  }
 }
