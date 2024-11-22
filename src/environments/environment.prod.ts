@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl : `http://${process.env.backend_IP}:${process.env.backend_PORT}`
+  baseUrl : `http://34.134.83.125:8000`
 };
