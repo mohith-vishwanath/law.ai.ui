@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { UserProfile } from "../models/user";
 import { HttpClient } from "@angular/common/http";
 import { first } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 
 
 declare var gapi: any; // Declare the gapi object from Google's platform.js
@@ -10,10 +11,11 @@ declare var gapi: any; // Declare the gapi object from Google's platform.js
 @Injectable({ providedIn: "root" })
 export class UserService {
 
-    private host : string = "http://localhost:8000";
+    private host : string = "";
     public isGoogleSignInEnabled$ = new BehaviorSubject<boolean>(false);
 
     constructor(private http: HttpClient) {
+        this.host = environment.baseUrl;
         setTimeout(() => {
             this.loadGapi();
         }, 3000);
@@ -51,7 +53,6 @@ export class UserService {
             } 
         });
     }
-
 
     public SignInWithGoogle(): Promise<any> {
         return new Promise((resolve, reject) => {
