@@ -1,0 +1,180 @@
+.chat-main {
+    height: 80vh;
+    width: 80vw;
+    background-color: rgb(254, 254, 254);
+}
+
+.drop-area {
+    height: 100vh;
+    width: 80vw;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: auto;
+    display: flex;
+    /* Use flexbox to center contents */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    text-align: center;
+    /* Center text within the div */
+    transition: 0.2s ease-in-out;
+}
+
+.drop-area.drag-over {
+    background-color: rgb(205, 205, 205);
+    transition: 0.2s ease-in-out;
+}
+
+.drop-area p {
+    font-weight: 500;
+    font-size: 20px;
+    color: #5b5b5b;
+    display: block;
+}
+
+.assistant {
+    background-color: rgb(238, 238, 238);
+    border-radius: 15px;
+    padding: 10px 15px;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: 80%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: black;
+    border: 1px rgb(0, 0, 0) solid;
+}
+
+.user {
+    background-color: rgb(43, 43, 43);
+    border-radius: 10px;
+    padding: 10px;
+    width: fit-content;
+    max-width: 50%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    color: white;
+}
+
+.chat-interface {
+    height: 90vh;
+    width: 100%;
+}
+
+.chat-messages {
+    overflow-y: scroll;
+    height: 80vh;
+    padding: 20px 20px;
+}
+
+.chat-input {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    bottom: 9px;
+    margin: 9px 0px;
+}
+
+/* .input-field {
+    margin: auto;
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.input {
+    width: 85%;
+} */
+
+.floating-buttons {
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+    margin: auto;
+}
+
+.floating-button {
+    padding: 6px;
+    margin: 2px 4px;
+    border: 1px solid rgb(125, 125, 125);
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.floating-button:hover {
+    padding: 6px;
+    margin: 2px 4px;
+    border: 1px solid rgb(125, 125, 125);
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(54, 54, 54);
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.search-bar {
+    display: flex;
+    border-radius: 20px;
+    background-color: rgb(246, 246, 246);
+    border: 1px rgb(229, 229, 229) solid;
+    width: 80vw;
+    max-width: 85%;
+    padding: 7px 10px;
+    position: sticky;
+    bottom: 5px;
+    margin: auto;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); */
+    /* Light shadow */
+}
+
+.search-bar input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #000000;
+    /* Text color */
+    font-size: 13px;
+    padding: 5px;
+    /* Padding for input */
+    flex: 1;
+}
+
+.search-bar button {
+    background-color: transparent;
+    border: none;
+    padding: 8px;
+    margin-left: 8px;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    /* Button text/icon color */
+    font-size: 14px;
+    /* Font size for button */
+}
+
+.chat-info-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    height: 100%;
+}
+
+.chat-info-message p {
+    font-weight: 500;
+    font-size: 20px;
+    color: #5b5b5b;
+}
+
+.question-buttons {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+}

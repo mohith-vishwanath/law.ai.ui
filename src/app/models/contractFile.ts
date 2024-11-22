@@ -1,3 +1,5 @@
+import { Message } from "./chat";
+
 export interface ContractFile {
     fileName : string;
     uuid : string;
@@ -5,10 +7,10 @@ export interface ContractFile {
 }
 
 export interface UploadFileResponse {
-    uuid : string;
-    questions : Questions[],
+    questions : string[],
     tags : string[],
-    fileName : string;
+    sessionId : string;
+    title : string;
 }
 
 export interface Questions {
@@ -20,4 +22,18 @@ export interface ActionButtons {
     label : string;
     questionId : number;
     iconUrl : string;
+}
+
+export interface Sessions {
+    title : string;
+    sessionId : string;
+    chats : Message[] | undefined;
+    files : Files[] | undefined;
+    isSelected : boolean;
+    questions : string[] | undefined;
+}
+
+export interface Files {
+    type : string; //can be sither "case" or "document"
+    name : string;
 }

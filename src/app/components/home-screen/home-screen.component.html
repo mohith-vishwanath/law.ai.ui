@@ -1,0 +1,14 @@
+<div class="home-screen-main">
+    <div class="content">
+        <div class="content-div">
+            <p class="title">
+                Redefine legal research with AI precision.
+            </p>
+            <button (click)="SignInWithGoogle()" [disabled]="!enableGoogleSignIn">{{ enableGoogleSignIn ? 'Sign In with
+                Google' : 'Please wait...' }}</button>
+            <!-- <div *ngIf="isLoggedIn">
+                <p>Welcome {{user.getName()}}</p>
+            </div> -->
+        </div>
+    </div>
+</div>

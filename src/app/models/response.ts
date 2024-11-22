@@ -1,10 +1,12 @@
+import { Case } from "./case";
+
 export interface SearchResponse {
-  title: string;
-  summary: string;
-  numcites: number;
-  fileLink: string;
-  relevanceScore: number;
-  id : number;
-  fullText : string;
-  date : string;
+  type : string;
+  cases : Case[];
+  summary : string;
+}
+
+export interface SearchMetadata {
+  type : string;
+  summary : string;
 }

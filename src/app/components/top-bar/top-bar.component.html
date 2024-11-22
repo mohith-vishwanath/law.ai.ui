@@ -1,0 +1,17 @@
+<div class="top-bar">
+    <div class="left">
+        <!-- <span class="logo">
+            <img src="../../../assets/law.png">
+        </span> -->
+        <p class="title">
+            theprecedent.ai
+        </p>
+    </div>
+
+    <div class="right">
+        <button class="top-bar-button" [ngClass]="{'selected' : sections['search']}" id="search" (click)="ChangeSection('search')" mat-button routerLink="/search">Search</button>
+        <button class="top-bar-button" [ngClass]="{'selected' : sections['chat']}" id="chat" (click)="ChangeSection('chat')" mat-button routerLink="/chat">Chat</button>
+        <p class="top-bar-username">{{username}}</p>
+        <!-- <button class="top-bar-button" [ngClass]="{'selected' : sections['about']}" id="about" (click)="ChangeSection('about')" mat-button>About Us</button> -->
+    </div>
+</div>

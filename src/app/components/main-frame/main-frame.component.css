@@ -1,0 +1,12 @@
+.content {
+    height: 100%;
+}
+
+.main-frame-container {
+    height: 100%;
+}
+
+html body {
+    margin: 0;
+    height: 100%;
+}

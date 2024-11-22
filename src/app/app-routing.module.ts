@@ -1,16 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './search/search.component';
-import { ContractAnalysisComponent } from './contract-analysis/contract-analysis.component';
+import { SearchMainFrameComponent } from './components/search/search-main-frame/search-main-frame.component';
+import { DocumentsMainFrameComponent } from './components/documents/documents-main-frame/documents-main-frame.component';
+import { HomeScreenComponent } from './components/home-screen/home-screen.component';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
-    path : "search",
-    component : SearchComponent
+    path : "",
+    component : HomeScreenComponent
   },
   {
-    path : "analysis",
-    component : ContractAnalysisComponent
+    path : "search",
+    component : SearchMainFrameComponent,
+    canActivate: [AuthGuard] 
+  },
+  {
+    path : "chat",
+    component : DocumentsMainFrameComponent,
+    canActivate: [AuthGuard] 
   }
 ];
 

@@ -1,0 +1,118 @@
+<div class="results-main">
+    <div class="top-section">
+        <div>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="{{searchPlaceholderText}}"
+                    [(ngModel)]="searchQuery" (keydown.enter)="Search()">
+                <button class="search-button" (click)="Search()" [disabled]="DisableSearchButton()">Go</button>
+            </div>
+            <div class="search-metadata">
+                <p>{{searchMetadata.type}}</p>
+                <button class="border-less-button" *ngIf="isAnyCaseChecked" (click)="MoveCasesToChat()">
+                    Move {{ numOfSelectedCases }} {{ numOfSelectedCases === 1 ? 'case' : 'cases' }} to Chat
+                </button>
+            </div>
+        </div>
+        <div class="filters">
+
+        </div>
+    </div>
+    <hr>
+    <div class="search-results">
+        <div class="results-section">
+            <div *ngIf="!isSearchLoading">
+                <div class="result-case" *ngFor="let result of results">
+                    <div class="result-content">
+                        <div class="case-title">
+                            <input type="checkbox" [checked]="result.isChecked"
+                                (change)="CheckboxClicked($event, result.id)">
+                            <p><button class="clear-button"
+                                    (click)="ShowSummary(result.id)">{{result.title}}</button></p>
+                        </div>
+                        <div class="summary" [innerHTML]="result.summary.Summary"></div>
+                    </div>
+                    <div class="case-footnote">
+                        <p class="case-metadata" *ngIf="result.numcites">Cited by {{result.numcites}}</p>
+                        <p class="case-metadata" *ngIf="result.date">{{result.date}}</p>
+                        <p class="case-metadata" *ngIf="result.source">{{result.source}}</p>
+                        <p class="case-metadata" *ngIf="result.score">Relevance {{result.score}}%</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="loading-spinner" *ngIf="isSearchLoading">
+                <div class="spinner-container">
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    <p>{{searchLoadingMessage}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="preview-section">
+            <div class="case-preview" *ngIf="showCasePreview">
+                <div class="case-preview-container">
+                    <div class="case-preview-title">
+                        <p>{{selectedCase?.title}}</p>
+                        <button class="border-less-button" (click)="showCasePreview = !showCasePreview">Close</button>
+                    </div>
+                    <div class="case-text">
+                        <div [innerHTML]="selectedCase?.html"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="case-summary" *ngIf="showCaseSummary">
+                <div class="case-summary-container">
+                    <div class="summary-top-bar">
+                        <div class="summary-top-bar-title">
+                            <img src="../../../../assets/square.fill.text.grid.1x2.png" alt="Logo" class="inline-image">
+                            <b>Case Insights</b>
+                        </div>
+                        <div>
+                            <button class="border-less-button" (click)="OpenCase()">Open Case</button>
+                            <button class="border-less-button" (click)="CloseSummary()">Close</button>
+                        </div>
+                    </div>
+                    <div class="section" id="summary" *ngIf="selectedCase?.summary?.Summary">
+                        <p class="section-title">Summary</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Summary"></div>
+                    </div>
+                    <div class="section" id="facts" *ngIf="selectedCase?.summary?.Facts">
+                        <p class="section-title">Facts</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Facts"></div>
+                    </div>
+                    <div class="section" id="arguments" *ngIf="selectedCase?.summary?.Arguments">
+                        <p class="section-title">Arguments</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Arguments"></div>
+                    </div>
+                    <div class="section" id="reasoning" *ngIf="selectedCase?.summary?.Reasoning">
+                        <p class="section-title">Reasoning</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Reasoning"></div>
+                    </div>
+                    <div class="section" id="conclusion" *ngIf="selectedCase?.summary?.Conclusion">
+                        <p class="section-title">Conclusion</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Conclusion"></div>
+                    </div>
+                    <div class="section" id="laws" *ngIf="selectedCase?.summary?.Laws">
+                        <p class="section-title">Laws</p>
+                        <hr>
+                        <div [innerHTML]="selectedCase?.summary?.Laws"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="case-summary" *ngIf="!showCasePreview && !showCaseSummary && !isSearchLoading">
+                <div class="case-summary-container">
+                    <div class="ai-overview-title">
+                        <b> <img src="../../../../assets/text.quote.png" alt="Logo" class="inline-image"> AI
+                            Overview</b>
+                        <hr>
+                    </div>
+                    <div [innerHTML]="searchMetadata.summary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
