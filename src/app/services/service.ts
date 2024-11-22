@@ -14,60 +14,67 @@ export class BackendService {
 
   constructor(private http: HttpClient) {}
 
+  private post<T>(url : string, body : any) : Observable<T> {
+    return this.http.post<T>(`${this.host}/${url}`,body,{withCredentials : true})
+  }
+
+  private get<T>(url : string) : Observable<T> {
+    return this.http.get<T>(`${this.host}/${url}`,{withCredentials : true})
+  }
+
+  private delete<T>(url : string) : Observable<T> {
+    return this.http.delete<T>(`${this.host}/${url}`);
+  }
+
   public Search(query: string): Observable<SearchResponse> {
     // return of({} as SearchResponse).pipe(delay(10000));
-    return this.http.get<SearchResponse>(`${this.host}/search/query?input=${query}`);
+    return this.get<SearchResponse>(`search/query?input=${query}`);
   }
 
-  public AddFilesToSession(file: File, userId: string, sessionId : string): Observable<AddFileOrCaseToSessionResponse> {
+  public AddFilesToSession(file: File, sessionId : string): Observable<AddFileOrCaseToSessionResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('userId', userId);
     formData.append('sessionId', sessionId);
-    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/upload/document`, formData);
+    return this.post<AddFileOrCaseToSessionResponse>(`chat/upload/document`, formData);
   }
 
-  public AddCasesToSession(userId: string, sessionId: string, cases: string): Observable<AddFileOrCaseToSessionResponse> {
+  public AddCasesToSession(sessionId: string, cases: string): Observable<AddFileOrCaseToSessionResponse> {
     const payload = {
-      userId: userId,
       sessionId: sessionId,
       cases: cases
     };
-    return this.http.post<AddFileOrCaseToSessionResponse>(`${this.host}/chat/upload/cases`, payload);
+    return this.post<AddFileOrCaseToSessionResponse>(`chat/upload/cases`, payload);
   }
   
 
-  public GetUserChatHistory(userId: string): Observable<Sessions[]> {
-    return this.http.get<Sessions[]>(`${this.host}/chat/sessions?userId=${userId}`)
+  public GetUserChatHistory(): Observable<Sessions[]> {
+    return this.get<Sessions[]>(`chat/sessions`)
   }
 
-  public GetMessagesForUserWithSessionId(sessionId: string, userId: string): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.host}/chat/chat-history?userId=${userId}&sessionId=${sessionId}`);
+  public GetMessagesForUserWithSessionId(sessionId: string): Observable<Message[]> {
+    return this.get<Message[]>(`chat/chat-history?sessionId=${sessionId}`);
   }
 
   public SendUserMsg(request: NewMsgRequest): Observable<Message> {
     const formData = new FormData(); // Create form data
-    formData.append('userId', request.userId);
     formData.append('sessionId', request.sessionId);
     formData.append('message', request.message);
-    console.log(formData);
-    return this.http.post<Message>(`${this.host}/chat/query`,formData);
+    return this.post<Message>(`chat/query`,formData);
   }
 
   public GetCaseText(id : number) : Observable<Case> {
-    return this.http.get<Case>(`${this.host}/search/case?caseId=${id}`)
+    return this.get<Case>(`search/case?caseId=${id}`)
   }
 
   public GetCaseSummary(id : number) : Observable<CaseSummary> {
-    return this.http.get<CaseSummary>(`${this.host}/search/summary?caseId=${id}`);
+    return this.get<CaseSummary>(`search/summary?caseId=${id}`);
   }
 
   public LogInWithGoogle() {
-    return this.http.get(`${this.host}/auth/google`,{withCredentials : true})
+    return this.get(`${this.host}/auth/google`)
   }
 
-  public DeleteSession(userId : string, sessionId : string) : Observable<boolean> {
-    return this.http.delete<boolean>(`${this.host}/chat/delete/session?userId=${userId}&sessionId=${sessionId}`);
+  public DeleteSession(sessionId : string) : Observable<boolean> {
+    return this.delete<boolean>(`chat/delete/session?sessionId=${sessionId}`);
   }
-
 }

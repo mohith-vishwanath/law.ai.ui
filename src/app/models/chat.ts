@@ -12,7 +12,6 @@ export interface Message {
 }
 
 export interface NewMsgRequest {
-    userId : string;
     sessionId : string;
     message : string;
 }

@@ -7,7 +7,6 @@ import { filter, first, map, switchMap, take } from "rxjs/operators";
 import { marked } from "marked";
 import { Case, CaseSummary } from "../models/case";
 import { SearchMetadata, SearchResponse } from "../models/response";
-import { v4 } from "uuid";
 
 @Injectable({ providedIn: "root" })
 export class DataService {
@@ -16,8 +15,6 @@ export class DataService {
     public SearchMetadata$ = new BehaviorSubject<SearchMetadata>({} as SearchMetadata);
 
     public CurrentSession$ = new Observable<Sessions | undefined>(undefined);
-
-    private userId: string = "0b8d66b8-00dd-4abd-b530-6125b4bcc09f";
 
     constructor(private service: BackendService) {
 
@@ -31,7 +28,7 @@ export class DataService {
     }
 
     public FetchSessionsHistory(): void {
-        this.service.GetUserChatHistory(this.userId)
+        this.service.GetUserChatHistory()
         .pipe(first())
         .subscribe(res => {
             var result = [];
@@ -49,22 +46,12 @@ export class DataService {
                     questions: res[i].questions
                 } as Sessions)
             }
-            this.SessionsHistory$.next(result);
+            if(result.length != 0) this.SessionsHistory$.next(result);
         })
     }
 
-
-    public SetUserId(id: string): boolean {
-        this.userId = id;
-        return true;
-    }
-
-    public GetUserId(): string {
-        return this.userId;
-    }
-
     public AddDocumentToSession(file : File) : void {
-        this.service.AddFilesToSession(file,this.userId,this.GetCurrentSessionId())
+        this.service.AddFilesToSession(file,this.GetCurrentSessionId())
         .pipe(first())
         .subscribe(res => {
             if (!res) return;
@@ -100,7 +87,7 @@ export class DataService {
     }
 
     public GetChatHistoryForSessionId(sessionId : string) : void {
-        this.service.GetMessagesForUserWithSessionId(sessionId, this.userId)
+        this.service.GetMessagesForUserWithSessionId(sessionId)
         .pipe(first())
         .subscribe(data => {
             if (!data) return;
@@ -134,7 +121,6 @@ export class DataService {
         const sessionId = history[currentIndex].sessionId;
 
         this.service.SendUserMsg({
-            userId: this.userId,
             sessionId: sessionId,
             message: message
         })
@@ -145,18 +131,18 @@ export class DataService {
                 var index = history.findIndex(x => x.sessionId == sessionId);
                 if (!history[index].chats) history[index].chats = [];
                 history[index].chats?.push(data)
-                console.log(history);
                 this.SessionsHistory$.next(history);
             }
         })
     }
 
     public UploadDocument(file: File): void {
-        this.service.AddFilesToSession(file,this.userId, this.GetCurrentSessionId())
+        this.service.AddFilesToSession(file,this.GetCurrentSessionId())
         .pipe(first())
         .subscribe(data => {
             var history = this.SessionsHistory$.value;
             const currentSelection = history.findIndex(x => x.isSelected);
+            console.log(history);
             history[currentSelection].sessionId = data.sessionId;
             history[currentSelection].questions = data.questions;
             history[currentSelection].files = data.filesInSession;
@@ -179,7 +165,7 @@ export class DataService {
     }
 
     public CreateNewChatSession(title: string = "New Chat") {
-        var history = this.SessionsHistory$.value;
+        var history = this.SessionsHistory$.value || [];
 
         history.forEach(x => x.isSelected = false);
 
@@ -193,11 +179,13 @@ export class DataService {
         } as Sessions)
 
         this.SessionsHistory$.next(history);
+        console.log("NEW CHAT")
+        console.log(this.SessionsHistory$.value);
     }
 
     public AddCasesToSession(cases: string): Observable<boolean> {
         const sessionId = this.SessionsHistory$.value.find(x => x.isSelected)?.sessionId ?? "";
-        return this.service.AddCasesToSession(this.userId, sessionId, cases).pipe(
+        return this.service.AddCasesToSession(sessionId, cases).pipe(
             first(),
             map((data) => {
                 //Add a new chat
@@ -219,7 +207,7 @@ export class DataService {
     }
 
     public DeleteSession(sessionId : string) : Observable<boolean> {
-        return this.service.DeleteSession(this.userId,sessionId);
+        return this.service.DeleteSession(sessionId);
     }
 
 }

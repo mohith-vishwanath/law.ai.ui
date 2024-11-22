@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { BackendService } from "./service";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { UserProfile } from "../models/user";
+import { HttpClient } from "@angular/common/http";
+import { first } from "rxjs/operators";
 
 
 declare var gapi: any; // Declare the gapi object from Google's platform.js
@@ -9,10 +10,21 @@ declare var gapi: any; // Declare the gapi object from Google's platform.js
 @Injectable({ providedIn: "root" })
 export class UserService {
 
-    constructor(private service: BackendService) {
+    private host : string = "http://localhost:8000";
+    public isGoogleSignInEnabled$ = new BehaviorSubject<boolean>(false);
+
+    constructor(private http: HttpClient) {
         setTimeout(() => {
             this.loadGapi();
         }, 3000);
+    }
+
+    private post<T>(url : string, body : any) : Observable<T> {
+        return this.http.post<T>(`${this.host}/${url}`,body,{withCredentials : true})
+    }
+
+    private get<T>(url : string) : Observable<T> {
+        return this.http.get<T>(`${this.host}/${url}`,{withCredentials : true})
     }
 
     public LoggedInUser$ = new BehaviorSubject<UserProfile>({} as UserProfile);
@@ -20,11 +32,23 @@ export class UserService {
 
     private loadGapi(): void {
         gapi.load('auth2', () => {
+            this.isGoogleSignInEnabled$.next(true);
             gapi.auth2.init({
                 client_id: this.clientId,
                 scope: "email",
                 plugin_name: "theprecedent"
             });
+        });
+    }
+
+    public CheckLogin() {
+        this.get<UserProfile|undefined>(`auth/check`)
+        .pipe(first())
+        .subscribe(user => {
+            if(user) {
+                console.log(`User already logged in! ${user.firstName} ${user.lastName}`);
+                this.LoggedInUser$.next(user);
+            } 
         });
     }
 
@@ -36,13 +60,11 @@ export class UserService {
             authInstance.signIn({ prompt: "consent" }).then(
                 (googleUser: any) => {
                     const profile = googleUser.getBasicProfile();
-                    const user = {
-                        firstName : profile.getGivenName(),
-                        lastName : profile.getFamilyName(),
-                        email : profile.getEmail(),
-                        token : googleUser.getAuthResponse().id_token
-                    } as UserProfile;
-                    this.LoggedInUser$.next(user);
+                    const firstName = profile.getGivenName();
+                    const lastName = profile.getFamilyName();
+                    const email = profile.getEmail();
+                    const token = googleUser.getAuthResponse().id_token;
+                    this.LogInToBackend(firstName, lastName, email, token);
                     resolve(googleUser);
                 },
                 (error: any) => {
@@ -58,7 +80,26 @@ export class UserService {
     }
 
     public isUserLoggedIn() : boolean {
-        return this.LoggedInUser$.value.token != undefined;
+        const user = this.LoggedInUser$.value;
+        return (user.email != undefined);
     }
 
+    public LogInToBackend(firstName : string, lastName : string, email : string, token : string) {
+        this.post<boolean>(`auth/verify`,{
+            firstName : firstName,
+            lastName : lastName,
+            tokenId : token,
+            email : email
+        }).subscribe(x => {
+            if(!x) {
+                this.LoggedInUser$.next({} as UserProfile);
+                return;
+            }
+            this.LoggedInUser$.next({
+                firstName : firstName,
+                lastName : lastName,
+                email : email
+            } as UserProfile);
+        });
+    }
 }

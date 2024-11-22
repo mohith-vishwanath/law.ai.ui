@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,11 +10,11 @@ import { UserService } from 'src/app/services/user.service';
 export class TopBarComponent implements OnInit {
 
   public sections: {[key: string]: boolean} = {};
-  private defaultLandingPage : string = "home"
+  private defaultLandingPage : string = ""
 
   public username : string | undefined = undefined;
 
-  constructor(private router: Router, private userService : UserService) {
+  constructor(private router: Router, private userService : UserService, private ngZone: NgZone) {
     this.sections = {
       "search" : false,
       "chat" : false,
@@ -22,16 +22,17 @@ export class TopBarComponent implements OnInit {
     }
 
     this.userService.LoggedInUser$.subscribe(user => {
-      this.username = (Object.keys(user).length == 0) ? undefined : user.firstName;
+        ngZone.run(() => {
+          this.username = (Object.keys(user).length == 0) ? undefined : user.firstName;
+          if(this.username) this.router.navigateByUrl("/search");
+        });
     })
 
   }
 
   ngAfterViewInit(): void {
     var section = window.location.pathname;
-    console.log(section);
     if (section.startsWith("/")) section = section.split("/")[1] ?? this.defaultLandingPage;
-    console.log(section);
     this.ChangeSection(section);
   }
 

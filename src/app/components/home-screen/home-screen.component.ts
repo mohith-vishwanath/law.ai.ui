@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -11,22 +11,22 @@ import { UserService } from 'src/app/services/user.service';
 export class HomeScreenComponent implements OnInit {
 
   public enableGoogleSignIn : boolean = false;
+  public isLoggedIn : boolean = false;
+  public user : any;
 
   constructor(private dataService : DataService, 
     private userService : UserService,
-  ) { 
+    private ngZone : NgZone
+  ) {}
 
-    setTimeout(() => {
-      this.enableGoogleSignIn = true;
-    }, 3000);
-
+  ngOnInit(): void {
+    this.userService.CheckLogin();
+    this.userService.isGoogleSignInEnabled$.subscribe(x => {
+      this.ngZone.run(() => {
+        this.enableGoogleSignIn = x;
+      })
+    });
   }
-
-  public isLoggedIn : boolean = false;
-
-  public user : any;
-
-  ngOnInit(): void {}
 
   public SignInWithGoogle() : void {
 
@@ -42,6 +42,7 @@ export class HomeScreenComponent implements OnInit {
         console.log('Name:', profile.getName());
         console.log('Email:', profile.getEmail());
         console.log('ID Token:', idToken);
+        this.isLoggedIn = true;
       },
       (error) => {
         console.error('Error signing in:', error);
