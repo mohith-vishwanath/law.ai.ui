@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Files, Sessions } from "../models/contractFile";
+import { Sessions } from "../models/contractFile";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { BackendService } from "./service";
-import { AddFileOrCaseToSessionResponse, Message, NewMsgRequest } from "../models/chat";
-import { filter, first, map, switchMap, take } from "rxjs/operators";
-import { marked } from "marked";
+import { first, map } from "rxjs/operators";
 import { Case, CaseSummary } from "../models/case";
 import { SearchMetadata, SearchResponse } from "../models/response";
 
@@ -19,8 +17,7 @@ export class DataService {
     constructor(private service: BackendService) {
 
         this.CurrentSession$ = this.SessionsHistory$
-        .pipe(map(data =>  data?.find(x => x.isSelected))
-)
+        .pipe(map(data =>  data?.find(x => x.isSelected)))
     }
 
     private GetCurrentSessionId() : string {
@@ -46,7 +43,7 @@ export class DataService {
                     questions: res[i].questions
                 } as Sessions)
             }
-            if(result.length != 0) this.SessionsHistory$.next(result);
+            if(result.length != 0)this.SessionsHistory$.next(result);
         })
     }
 

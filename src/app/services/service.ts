@@ -6,13 +6,16 @@ import { Sessions, UploadFileResponse } from '../models/contractFile';
 import { AddFileOrCaseToSessionResponse, ChatMessages, Message, NewMsgRequest } from '../models/chat';
 import { Case, CaseSummary } from '../models/case';
 import { delay } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BackendService {
 
-  private host: string = "http://localhost:8000";
+  private host: string = "";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.host = environment.baseUrl;
+  }
 
   private post<T>(url : string, body : any) : Observable<T> {
     return this.http.post<T>(`${this.host}/${url}`,body,{withCredentials : true})
