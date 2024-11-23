@@ -4,6 +4,8 @@ import { UserProfile } from "../models/user";
 import { HttpClient } from "@angular/common/http";
 import { first } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { GoogleAuthProvider } from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
 declare var gapi: any; // Declare the gapi object from Google's platform.js
@@ -14,11 +16,8 @@ export class UserService {
     private host : string = "";
     public isGoogleSignInEnabled$ = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, public afAuth: AngularFireAuth) {
         this.host = environment.baseUrl;
-        setTimeout(() => {
-            this.loadGapi();
-        }, 3000);
     }
 
     private post<T>(url : string, body : any) : Observable<T> {
@@ -32,17 +31,6 @@ export class UserService {
     public LoggedInUser$ = new BehaviorSubject<UserProfile>({} as UserProfile);
     private clientId: string = '472133833229-408gndosjbnehcvsojua17ijave19l6c.apps.googleusercontent.com'; // Replace with your actual client ID
 
-    private loadGapi(): void {
-        gapi.load('auth2', () => {
-            this.isGoogleSignInEnabled$.next(true);
-            gapi.auth2.init({
-                client_id: this.clientId,
-                scope: "email",
-                plugin_name: "theprecedent"
-            });
-        });
-    }
-
     public CheckLogin() {
         this.get<UserProfile|undefined>(`auth/check`)
         .pipe(first())
@@ -54,26 +42,18 @@ export class UserService {
         });
     }
 
-    public SignInWithGoogle(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            if (typeof gapi === 'undefined') this.loadGapi();
-            const authInstance = gapi.auth2.getAuthInstance();
-            authInstance.signIn({ prompt: "consent" }).then(
-                (googleUser: any) => {
-                    const profile = googleUser.getBasicProfile();
-                    const firstName = profile.getGivenName();
-                    const lastName = profile.getFamilyName();
-                    const email = profile.getEmail();
-                    const token = googleUser.getAuthResponse().id_token;
-                    this.LogInToBackend(firstName, lastName, email, token);
-                    resolve(googleUser);
-                },
-                (error: any) => {
-                    reject(error);
-                }
-            );
-        });
-    }
+    public SignInWithGoogle() {
+        const provider = new GoogleAuthProvider();
+        this.afAuth.signInWithPopup(provider)
+          .then(result => {
+            // Handle successful sign-in
+            console.log(result.user);
+          })
+          .catch(error => {
+            // Handle sign-in errors
+            console.error(error);
+          });
+      }
 
     public signOut(): void {
         const authInstance = gapi.auth2.getAuthInstance();
