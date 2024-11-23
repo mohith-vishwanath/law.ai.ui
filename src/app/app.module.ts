@@ -28,6 +28,9 @@ import { HomeScreenComponent } from './components/home-screen/home-screen.compon
 import {MatMenuModule} from '@angular/material/menu';
 import { SplashScreenComponent } from './components/splash-screens/splash-screen/splash-screen.component';
 import { MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent, TopBarComponent, MainFrameComponent, SearchResultsComponent, SearchMainFrameComponent, DocumentsMainFrameComponent, ChatHistorySideBarComponent, ChatComponent, HomeScreenComponent, SplashScreenComponent],
@@ -46,7 +49,9 @@ import { MatDialog, MatDialogModule} from '@angular/material/dialog';
     MatSidenavModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
-    MatButtonModule, MatMenuModule, MatDialogModule
+    MatButtonModule, MatMenuModule, MatDialogModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
   ],
   providers: [BackendService],
   bootstrap: [AppComponent],
