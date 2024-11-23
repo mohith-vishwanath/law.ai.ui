@@ -24,7 +24,10 @@ export class TopBarComponent implements OnInit {
     this.userService.LoggedInUser$.subscribe(user => {
         ngZone.run(() => {
           this.username = (Object.keys(user).length == 0) ? undefined : user.firstName;
-          if(this.username) this.router.navigateByUrl("/search");
+          if(this.username) {
+            this.router.navigateByUrl("/search");
+            this.ChangeSection("search");
+          }
         });
     })
 

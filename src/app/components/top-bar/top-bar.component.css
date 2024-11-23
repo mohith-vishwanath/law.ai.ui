@@ -5,11 +5,13 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    /* background-color: rgb(247, 247, 247); */
-    /* background-color: bisque; */
     background-color: rgb(65,65,65);
     z-index: 1000;
     height: 3.5vh;
+}
+
+.top-bar-username p {
+    margin: 7px !important
 }
 
 .left {
@@ -23,15 +25,16 @@
 }
 
 .top-bar-button {
-    margin-right: 5px;
-    margin-left: 5px;
+    margin : 8px 10px;
     font-weight: 300;
-    color: rgb(173, 173, 173);;
+    color: rgb(180, 180, 180);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .top-bar-button:hover {
-    margin-right: 5px;
-    margin-left: 5px;
+    margin : 8px 10px;
     color: white;
     transition: ease-in-out 0.1s;
 }
@@ -56,7 +59,7 @@
 }
 
 .top-bar-username {
-    margin : 8px 5px;
+    margin : 7px 10px;
     font-weight: 600;
     color: white;
 }

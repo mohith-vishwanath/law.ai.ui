@@ -2,7 +2,6 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { UserService } from 'src/app/services/user.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
 @Component({
@@ -16,25 +15,26 @@ export class HomeScreenComponent implements OnInit {
   public isLoggedIn : boolean = false;
   public user : Observable<any> = of(undefined);
 
+
+  public firstName : string = "";
+  public lastName : string = "";
+  public email : string = "";
+  public password : string = "";
+
   constructor(private dataService : DataService, 
     private userService : UserService,
-    private ngZone : NgZone,
-    public afAuth: AngularFireAuth
+    private ngZone : NgZone
   ) {}
 
   ngOnInit(): void {
-    this.user = this.afAuth.authState;
     this.userService.CheckLogin();
-    this.userService.isGoogleSignInEnabled$.subscribe(x => {
-      this.ngZone.run(() => {
-        this.enableGoogleSignIn = x;
-      })
-    });
   }
 
-  public SignInWithGoogle() : void {
+  public disableSignUpButton() : boolean {
+    return (this.firstName.trim() == "") || (this.email.trim() == "") || (this.password.trim() == "");
+  }
 
-    this.userService.SignInWithGoogle();
-
+  public SignUp() {
+    this.userService.SignUp(this.firstName,this.lastName,this.email,this.password);
   }
 }

@@ -1,13 +1,34 @@
 <div class="home-screen-main">
     <div class="content">
-        <div class="content-div">
+        <div class="left">
             <p class="title">
                 Redefine legal research with AI precision.
             </p>
-            <button (click)="SignInWithGoogle()">Sign In with Google</button>
-            <div *ngIf="user | async as user">
-                Welcome, {{ user.displayName }}!
-              </div>
+        </div>
+        <div class="right">
+            <div class="login-box">
+                <div class="login-box-title">
+                    <p>Let's get started...</p>
+                </div>
+                <div class="search-bar">
+                    <input [(ngModel)]="firstName" placeholder="Name">
+                </div>
+                <div class="search-bar">
+                    <input [(ngModel)]="lastName" placeholder="Name">
+                </div>
+                <div class="search-bar">
+                    <input [(ngModel)]="email" placeholder="Email">
+                </div>
+                <div class="search-bar">
+                    <input [(ngModel)]="password" type="password" placeholder="Password">
+                </div>
+                <div class="sign-in-up-button" [ngClass]="{'disabled-button' : disableSignUpButton()}">
+                    <button (click)="SignUp()">Sign Up</button>
+                </div>
+                <div class="login-footer">
+                    <p class="muted">Already have an account? Click here!</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
