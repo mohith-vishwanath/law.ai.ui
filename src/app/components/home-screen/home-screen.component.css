@@ -111,3 +111,20 @@
 .disabled-button button {
     color: black;
 }
+
+.borderless-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgb(0, 123, 255);
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+.error-info-div {
+    justify-items: center;
+    align-items: center;
+}

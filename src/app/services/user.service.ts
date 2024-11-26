@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { UserProfile } from "../models/user";
 import { HttpClient } from "@angular/common/http";
-import { first } from "rxjs/operators";
+import { delay, first, map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 
@@ -57,6 +57,14 @@ export class UserService {
                 }
                 this.LoggedInUser$.next(user);
             });
+    }
+
+    public SignIn(username: string, password: string): Observable<UserProfile> {
+        return this.post<UserProfile>(`auth/login`, { username, password })
+            .pipe(first(), map(response => {
+                this.LoggedInUser$.next(response);
+                return response;
+            }));
     }
 
     public IsUserLoggedIn(): boolean {
